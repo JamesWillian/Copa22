@@ -1,0 +1,313 @@
+object FrameGrupos: TFrameGrupos
+  Size.Width = 331.000000000000000000
+  Size.Height = 160.000000000000000000
+  Size.PlatformDefault = False
+  object RectGruposFull: TRectangle
+    Align = Contents
+    Fill.Color = xFF168AAE
+    Margins.Left = 2.000000000000000000
+    Margins.Top = 2.000000000000000000
+    Margins.Right = 2.000000000000000000
+    Margins.Bottom = 2.000000000000000000
+    Size.Width = 327.000000000000000000
+    Size.Height = 156.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Kind = None
+    XRadius = 5.000000000000000000
+    YRadius = 5.000000000000000000
+    object LabelGrupo: TLabel
+      Align = Top
+      StyledSettings = []
+      Margins.Top = 2.000000000000000000
+      Position.Y = 2.000000000000000000
+      Size.Width = 327.000000000000000000
+      Size.Height = 21.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Corbel'
+      TextSettings.Font.Size = 14.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.FontColor = claAliceblue
+      TextSettings.HorzAlign = Center
+      Text = 'Grupo'
+      TabOrder = 0
+    end
+    object LayoutSelecaoA: TLayout
+      Align = Top
+      Margins.Top = 2.000000000000000000
+      Position.Y = 25.000000000000000000
+      Size.Width = 327.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 4
+      object ImageA: TImage
+        MultiResBitmap.Height = 2660
+        MultiResBitmap.Width = 3800
+        MultiResBitmap = <
+          item
+          end>
+        Align = MostLeft
+        Opacity = 0.899999976158142100
+        Margins.Left = 12.000000000000000000
+        Margins.Right = 8.000000000000000000
+        Position.X = 12.000000000000000000
+        Size.Width = 33.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object LineA: TLine
+        Align = Contents
+        Locked = True
+        LineType = Bottom
+        Margins.Left = 5.000000000000000000
+        Margins.Right = 5.000000000000000000
+        Size.Width = 317.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        Stroke.Color = claAliceblue
+      end
+      object LabelSelecaoA: TLabel
+        Align = Client
+        StyledSettings = []
+        Size.Width = 139.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.FontColor = claAliceblue
+        Text = 'Sele'#231#227'o A'
+        TabOrder = 2
+      end
+      object LabelPontosA: TLabel
+        Align = MostRight
+        StyledSettings = []
+        Margins.Right = 12.000000000000000000
+        Position.X = 256.000000000000000000
+        Size.Width = 59.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.StyleExt = {00060000000000000004000000}
+        TextSettings.FontColor = claAliceblue
+        TextSettings.HorzAlign = Trailing
+        Text = '9 Pontos'
+        TabOrder = 3
+      end
+      object LabelJogosA: TLabel
+        Align = MostRight
+        StyledSettings = []
+        Margins.Right = 8.000000000000000000
+        Position.X = 192.000000000000000000
+        Size.Width = 56.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.StyleExt = {00060000000000000004000000}
+        TextSettings.FontColor = claAliceblue
+        TextSettings.HorzAlign = Trailing
+        Text = '3 Jogos'
+        TabOrder = 4
+      end
+    end
+    object LayoutSelecaoB: TLayout
+      Align = Top
+      Margins.Top = 2.000000000000000000
+      Position.Y = 57.000000000000000000
+      Size.Width = 327.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      object ImageB: TImage
+        MultiResBitmap.Height = 183
+        MultiResBitmap.Width = 275
+        MultiResBitmap = <
+          item
+          end>
+        Align = MostLeft
+        Margins.Left = 12.000000000000000000
+        Margins.Right = 8.000000000000000000
+        Position.X = 12.000000000000000000
+        Size.Width = 33.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object LineB: TLine
+        Align = Contents
+        Locked = True
+        LineType = Bottom
+        Margins.Left = 5.000000000000000000
+        Margins.Right = 5.000000000000000000
+        Size.Width = 317.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        Stroke.Color = claAliceblue
+      end
+      object LabelSelecaoB: TLabel
+        Align = Client
+        StyledSettings = []
+        Size.Width = 139.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.FontColor = claAliceblue
+        Text = 'Sele'#231#227'o B'
+        TabOrder = 1
+      end
+      object LabelPontosB: TLabel
+        Align = MostRight
+        StyledSettings = []
+        Margins.Right = 12.000000000000000000
+        Position.X = 256.000000000000000000
+        Size.Width = 59.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.StyleExt = {00060000000000000004000000}
+        TextSettings.FontColor = claAliceblue
+        TextSettings.HorzAlign = Trailing
+        Text = '9 Pontos'
+        TabOrder = 2
+      end
+      object LabelJogosB: TLabel
+        Align = MostRight
+        StyledSettings = []
+        Margins.Right = 8.000000000000000000
+        Position.X = 192.000000000000000000
+        Size.Width = 56.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.StyleExt = {00060000000000000004000000}
+        TextSettings.FontColor = claAliceblue
+        TextSettings.HorzAlign = Trailing
+        Text = '3 Jogos'
+        TabOrder = 3
+      end
+    end
+    object LayoutSelecaoC: TLayout
+      Align = Top
+      Margins.Top = 2.000000000000000000
+      Position.Y = 89.000000000000000000
+      Size.Width = 327.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object ImageC: TImage
+        MultiResBitmap.Height = 170
+        MultiResBitmap.Width = 255
+        MultiResBitmap = <
+          item
+          end>
+        Align = MostLeft
+        Margins.Left = 12.000000000000000000
+        Margins.Right = 8.000000000000000000
+        Position.X = 12.000000000000000000
+        Size.Width = 33.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object LineC: TLine
+        Align = Contents
+        Locked = True
+        LineType = Bottom
+        Margins.Left = 5.000000000000000000
+        Margins.Right = 5.000000000000000000
+        Size.Width = 317.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        Stroke.Color = claAliceblue
+      end
+      object LabelSelecaoC: TLabel
+        Align = Client
+        StyledSettings = []
+        Size.Width = 139.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.FontColor = claAliceblue
+        Text = 'Sele'#231#227'o C'
+        TabOrder = 2
+      end
+      object LabelPontosC: TLabel
+        Align = MostRight
+        StyledSettings = []
+        Margins.Right = 12.000000000000000000
+        Position.X = 256.000000000000000000
+        Size.Width = 59.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.StyleExt = {00060000000000000004000000}
+        TextSettings.FontColor = claAliceblue
+        TextSettings.HorzAlign = Trailing
+        Text = '9 Pontos'
+        TabOrder = 3
+      end
+      object LabelJogosC: TLabel
+        Align = MostRight
+        StyledSettings = []
+        Margins.Right = 8.000000000000000000
+        Position.X = 192.000000000000000000
+        Size.Width = 56.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.StyleExt = {00060000000000000004000000}
+        TextSettings.FontColor = claAliceblue
+        TextSettings.HorzAlign = Trailing
+        Text = '3 Jogos'
+        TabOrder = 4
+      end
+    end
+    object LayoutSelecaoD: TLayout
+      Align = Top
+      Margins.Top = 2.000000000000000000
+      Position.Y = 121.000000000000000000
+      Size.Width = 327.000000000000000000
+      Size.Height = 30.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object ImageD: TImage
+        MultiResBitmap.Height = 908
+        MultiResBitmap.Width = 1200
+        MultiResBitmap = <
+          item
+          end>
+        Align = MostLeft
+        Margins.Left = 12.000000000000000000
+        Margins.Right = 8.000000000000000000
+        Position.X = 12.000000000000000000
+        Size.Width = 33.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object LabelSelecaoD: TLabel
+        Align = Client
+        StyledSettings = []
+        Size.Width = 139.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.FontColor = claAliceblue
+        Text = 'Sele'#231#227'o D'
+        TabOrder = 2
+      end
+      object LabelPontosD: TLabel
+        Align = MostRight
+        StyledSettings = []
+        Margins.Right = 12.000000000000000000
+        Position.X = 256.000000000000000000
+        Size.Width = 59.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.StyleExt = {00060000000000000004000000}
+        TextSettings.FontColor = claAliceblue
+        TextSettings.HorzAlign = Trailing
+        Text = '9 Pontos'
+        TabOrder = 3
+      end
+      object LabelJogosD: TLabel
+        Align = MostRight
+        StyledSettings = []
+        Margins.Right = 8.000000000000000000
+        Position.X = 192.000000000000000000
+        Size.Width = 56.000000000000000000
+        Size.Height = 30.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.StyleExt = {00060000000000000004000000}
+        TextSettings.FontColor = claAliceblue
+        TextSettings.HorzAlign = Trailing
+        Text = '3 Jogos'
+        TabOrder = 4
+      end
+    end
+  end
+end

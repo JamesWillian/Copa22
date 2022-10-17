@@ -1,0 +1,281 @@
+object FrameApostas: TFrameApostas
+  Size.Width = 331.000000000000000000
+  Size.Height = 99.000000000000000000
+  Size.PlatformDefault = False
+  object Layout1: TLayout
+    Align = Top
+    Position.X = 3.000000000000000000
+    Size.Width = 328.000000000000000000
+    Size.Height = 47.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object LayoutPlacar: TLayout
+      Align = Center
+      Size.Width = 50.000000000000000000
+      Size.Height = 31.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object LabelGolA: TLabel
+        Align = Left
+        StyledSettings = []
+        Size.Width = 25.000000000000000000
+        Size.Height = 31.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.Font.Size = 18.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.FontColor = claDimgray
+        TextSettings.HorzAlign = Center
+        Text = '2'
+        TabOrder = 0
+      end
+      object LabelPlacar: TLabel
+        Align = Center
+        StyledSettings = []
+        Size.Width = 10.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.Font.Size = 18.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.FontColor = claDimgray
+        TextSettings.HorzAlign = Center
+        Text = ':'
+        TabOrder = 1
+      end
+      object LabelGolB: TLabel
+        Align = Right
+        StyledSettings = []
+        Position.X = 25.000000000000000000
+        Size.Width = 25.000000000000000000
+        Size.Height = 31.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.Font.Size = 18.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.FontColor = claDimgray
+        TextSettings.HorzAlign = Center
+        Text = '1'
+        TabOrder = 2
+      end
+    end
+    object LayoutSelecaoA: TLayout
+      Align = Left
+      Size.Width = 161.000000000000000000
+      Size.Height = 47.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object ImageSelecaoA: TImage
+        MultiResBitmap = <
+          item
+          end>
+        Align = Left
+        Margins.Left = 12.000000000000000000
+        Margins.Top = 5.000000000000000000
+        Margins.Right = 5.000000000000000000
+        Margins.Bottom = 5.000000000000000000
+        Position.X = 12.000000000000000000
+        Position.Y = 5.000000000000000000
+        Size.Width = 51.000000000000000000
+        Size.Height = 37.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object LabelSelecaoA: TLabel
+        Align = Left
+        StyledSettings = []
+        Position.X = 68.000000000000000000
+        Size.Width = 93.000000000000000000
+        Size.Height = 47.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.Font.Size = 16.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.FontColor = claDimgray
+        Text = 'Sele'#231#227'o A'
+        TabOrder = 1
+      end
+    end
+    object LayoutSelecaoB: TLayout
+      Align = Right
+      Position.X = 165.000000000000000000
+      Size.Width = 163.000000000000000000
+      Size.Height = 47.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object ImageSelecaoB: TImage
+        MultiResBitmap.Height = 1400
+        MultiResBitmap.Width = 2100
+        MultiResBitmap = <
+          item
+          end>
+        Align = Right
+        Margins.Left = 5.000000000000000000
+        Margins.Top = 5.000000000000000000
+        Margins.Right = 12.000000000000000000
+        Margins.Bottom = 5.000000000000000000
+        Position.X = 100.000000000000000000
+        Position.Y = 5.000000000000000000
+        Size.Width = 51.000000000000000000
+        Size.Height = 37.000000000000000000
+        Size.PlatformDefault = False
+        WrapMode = Stretch
+      end
+      object LabelSelecaoB: TLabel
+        Align = Right
+        StyledSettings = []
+        Position.X = 1.000000000000000000
+        Size.Width = 94.000000000000000000
+        Size.Height = 47.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.Font.Size = 16.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.FontColor = claDimgray
+        TextSettings.HorzAlign = Trailing
+        Text = 'Sele'#231#227'o B'
+        TabOrder = 1
+      end
+    end
+  end
+  object Layout2: TLayout
+    Align = Client
+    Size.Width = 328.000000000000000000
+    Size.Height = 50.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object Layout3: TLayout
+      Align = Left
+      Size.Width = 110.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object Label1: TLabel
+        Align = Top
+        StyledSettings = []
+        Margins.Left = 15.000000000000000000
+        Margins.Top = 5.000000000000000000
+        Position.X = 15.000000000000000000
+        Position.Y = 5.000000000000000000
+        Size.Width = 95.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.Font.Size = 14.000000000000000000
+        TextSettings.FontColor = claDimgray
+        Text = '10/12/2022'
+        TabOrder = 0
+      end
+      object Label2: TLabel
+        Align = Top
+        StyledSettings = []
+        Margins.Left = 15.000000000000000000
+        Position.X = 15.000000000000000000
+        Position.Y = 22.000000000000000000
+        Size.Width = 95.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.Font.Size = 14.000000000000000000
+        TextSettings.FontColor = claDimgray
+        Text = '13 horas'
+        TabOrder = 1
+      end
+    end
+    object Layout4: TLayout
+      Align = Right
+      Position.X = 218.000000000000000000
+      Size.Width = 110.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object RectButtonAberto: TRectangle
+        Align = Center
+        Fill.Color = claLimegreen
+        Margins.Right = 10.000000000000000000
+        Size.Width = 97.000000000000000000
+        Size.Height = 35.000000000000000000
+        Size.PlatformDefault = False
+        Stroke.Kind = None
+        XRadius = 10.000000000000000000
+        YRadius = 10.000000000000000000
+        object LabelButton: TLabel
+          Align = Client
+          StyledSettings = []
+          Locked = True
+          Size.Width = 97.000000000000000000
+          Size.Height = 35.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Family = 'Corbel'
+          TextSettings.Font.Size = 16.000000000000000000
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+          TextSettings.FontColor = claWhite
+          TextSettings.HorzAlign = Center
+          Text = 'Aberto'
+          TabOrder = 0
+        end
+      end
+    end
+    object Layout5: TLayout
+      Align = Client
+      Size.Width = 108.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object Label3: TLabel
+        Align = Top
+        StyledSettings = []
+        Margins.Top = 2.000000000000000000
+        Position.Y = 24.000000000000000000
+        Size.Width = 108.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.Font.Size = 16.000000000000000000
+        TextSettings.Font.StyleExt = {00040000000200000004000000}
+        TextSettings.FontColor = claDimgray
+        TextSettings.HorzAlign = Center
+        Text = 'Resultado: 3 x 2'
+        TabOrder = 1
+      end
+      object Label4: TLabel
+        Align = Top
+        StyledSettings = []
+        Margins.Top = 5.000000000000000000
+        Position.Y = 5.000000000000000000
+        Size.Width = 108.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.Font.Size = 16.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.FontColor = claDimgray
+        TextSettings.HorzAlign = Center
+        Text = 'Final'
+        TabOrder = 0
+      end
+    end
+  end
+  object Rectangle1: TRectangle
+    Align = MostLeft
+    Fill.Color = claLimegreen
+    Margins.Top = 3.000000000000000000
+    Margins.Bottom = 3.000000000000000000
+    Position.Y = 3.000000000000000000
+    Size.Width = 3.000000000000000000
+    Size.Height = 93.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Kind = None
+  end
+  object Line1: TLine
+    Align = Bottom
+    LineType = Bottom
+    Margins.Left = 10.000000000000000000
+    Margins.Right = 10.000000000000000000
+    Position.X = 13.000000000000000000
+    Position.Y = 97.000000000000000000
+    Size.Width = 308.000000000000000000
+    Size.Height = 2.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Color = claLightgray
+  end
+end

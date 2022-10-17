@@ -1,0 +1,188 @@
+object FramePartidas: TFramePartidas
+  Size.Width = 331.000000000000000000
+  Size.Height = 71.000000000000000000
+  Size.PlatformDefault = False
+  object RectFull: TRectangle
+    Align = Contents
+    Fill.Color = xFF168AAE
+    Margins.Left = 2.000000000000000000
+    Margins.Top = 2.000000000000000000
+    Margins.Right = 2.000000000000000000
+    Margins.Bottom = 2.000000000000000000
+    Size.Width = 327.000000000000000000
+    Size.Height = 67.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Kind = None
+    XRadius = 5.000000000000000000
+    YRadius = 5.000000000000000000
+    object LayoutSelecaoA: TLayout
+      Align = Left
+      Position.Y = 15.000000000000000000
+      Size.Width = 161.000000000000000000
+      Size.Height = 35.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object ImageSelecaoA: TImage
+        MultiResBitmap.Height = 2660
+        MultiResBitmap.Width = 3800
+        MultiResBitmap = <
+          item
+          end>
+        Align = Left
+        Margins.Left = 12.000000000000000000
+        Margins.Top = 2.000000000000000000
+        Margins.Right = 5.000000000000000000
+        Margins.Bottom = 2.000000000000000000
+        Position.X = 12.000000000000000000
+        Position.Y = 2.000000000000000000
+        Size.Width = 51.000000000000000000
+        Size.Height = 31.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object LabelSelecaoA: TLabel
+        Align = Left
+        StyledSettings = []
+        Position.X = 68.000000000000000000
+        Size.Width = 93.000000000000000000
+        Size.Height = 35.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.Font.Size = 16.000000000000000000
+        TextSettings.FontColor = claAliceblue
+        Text = 'Sele'#231#227'o A'
+        TabOrder = 1
+      end
+    end
+    object LayoutSelecaoB: TLayout
+      Align = Right
+      Position.X = 164.000000000000000000
+      Position.Y = 15.000000000000000000
+      Size.Width = 163.000000000000000000
+      Size.Height = 35.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object ImageSelecaoB: TImage
+        MultiResBitmap.Height = 2188
+        MultiResBitmap.Width = 3501
+        MultiResBitmap = <
+          item
+          end>
+        Align = Right
+        Margins.Left = 5.000000000000000000
+        Margins.Top = 2.000000000000000000
+        Margins.Right = 12.000000000000000000
+        Margins.Bottom = 2.000000000000000000
+        Position.X = 106.000000000000000000
+        Position.Y = 2.000000000000000000
+        Size.Width = 45.000000000000000000
+        Size.Height = 31.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object LabelSelecaoB: TLabel
+        Align = Right
+        StyledSettings = []
+        Position.X = 7.000000000000000000
+        Size.Width = 94.000000000000000000
+        Size.Height = 35.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.Font.Size = 16.000000000000000000
+        TextSettings.FontColor = claAliceblue
+        TextSettings.HorzAlign = Trailing
+        Text = 'Sele'#231#227'o B'
+        TabOrder = 1
+      end
+    end
+    object LayoutPlacar: TLayout
+      Align = Center
+      Size.Width = 50.000000000000000000
+      Size.Height = 31.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      object LabelGolA: TLabel
+        Align = Left
+        StyledSettings = []
+        Size.Width = 25.000000000000000000
+        Size.Height = 31.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.Font.Size = 18.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.FontColor = claAliceblue
+        TextSettings.HorzAlign = Center
+        Text = '2'
+        TabOrder = 0
+      end
+      object LabelPlacar: TLabel
+        Align = Center
+        StyledSettings = []
+        Size.Width = 10.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.Font.Size = 18.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.FontColor = claAliceblue
+        TextSettings.HorzAlign = Center
+        Text = ':'
+        TabOrder = 1
+      end
+      object LabelGolB: TLabel
+        Align = Right
+        StyledSettings = []
+        Position.X = 25.000000000000000000
+        Size.Width = 25.000000000000000000
+        Size.Height = 31.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.Font.Size = 18.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.FontColor = claAliceblue
+        TextSettings.HorzAlign = Center
+        Text = '1'
+        TabOrder = 2
+      end
+    end
+    object LayoutTop: TLayout
+      Align = Top
+      Size.Width = 327.000000000000000000
+      Size.Height = 15.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      object LabelFase: TLabel
+        Align = Client
+        StyledSettings = []
+        Margins.Top = 5.000000000000000000
+        Size.Width = 327.000000000000000000
+        Size.Height = 10.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.FontColor = claAliceblue
+        TextSettings.HorzAlign = Center
+        Text = 'SemiFinal'
+        TabOrder = 0
+      end
+    end
+    object Layout1: TLayout
+      Align = Bottom
+      Position.Y = 50.000000000000000000
+      Size.Width = 327.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 4
+      object LabelDataHora: TLabel
+        Align = Client
+        StyledSettings = []
+        Margins.Bottom = 5.000000000000000000
+        Size.Width = 327.000000000000000000
+        Size.Height = 12.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.FontColor = claAliceblue
+        TextSettings.HorzAlign = Center
+        Text = '15/12/2022 12h'
+        TabOrder = 0
+      end
+    end
+  end
+end
