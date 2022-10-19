@@ -6,12 +6,14 @@ uses
   uMainForm in 'uMainForm.pas' {MainForm},
   uFrameGrupos in 'Frames\uFrameGrupos.pas' {FrameGrupos: TFrame},
   uFramePartidas in 'Frames\uFramePartidas.pas' {FramePartidas: TFrame},
-  uFrameApostas in 'Frames\uFrameApostas.pas' {FrameApostas: TFrame};
+  uFrameApostas in 'Frames\uFrameApostas.pas' {FrameApostas: TFrame},
+  uDM in 'uDM.pas' {DM: TDataModule};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.CreateForm(TMainForm, MainForm);
+  Application.CreateForm(TDM, DM);
   Application.Run;
 end.

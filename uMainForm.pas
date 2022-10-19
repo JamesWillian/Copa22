@@ -7,7 +7,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
   FMX.Layouts, FMX.Objects, FMX.ListView, FMX.Controls.Presentation,
-  FMX.StdCtrls, FMX.TabControl, uFrameGrupos;
+  FMX.StdCtrls, FMX.TabControl, uDM, System.ImageList, FMX.ImgList;
 
 type
   TMainForm = class(TForm)
@@ -43,12 +43,6 @@ type
     LabelPartidas: TLabel;
     LabelApostas: TLabel;
     LabelRanking: TLabel;
-    ImageBrasil: TImage;
-    ImageServia: TImage;
-    ImageCamaroes: TImage;
-    ImageDinamarca: TImage;
-    ImageFranca: TImage;
-    ImageArgentina: TImage;
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
@@ -69,6 +63,7 @@ type
     lblDataHora: TLabel;
     Image5: TImage;
     Image6: TImage;
+    ImagesBandeiras: TImage;
     procedure RectTabelaTap(Sender: TObject; const Point: TPointF);
     procedure RectPartidasTap(Sender: TObject; const Point: TPointF);
     procedure RectApostasTap(Sender: TObject; const Point: TPointF);
@@ -103,7 +98,7 @@ implementation
 {$R *.fmx}
 
 uses
-  uFramePartidas, uFrameApostas;
+  uFramePartidas, uFrameApostas, uFrameGrupos;
 
 procedure TMainForm.AddAposta;
 var
@@ -115,8 +110,8 @@ begin
     Align := TAlignLayout.Top;
     Position.Y := 1000;
 
-    ImageSelecaoA.Bitmap := ImageBrasil.Bitmap;
-    ImageSelecaoB.Bitmap := ImageFranca.Bitmap;
+    ImageSelecaoA.Bitmap := ImagesBandeiras.MultiResBitmap.Items[24].Bitmap;
+    ImageSelecaoB.Bitmap := ImagesBandeiras.MultiResBitmap.Items[12].Bitmap;
   end;
 
   ListApostas.AddObject(frameAposta);
@@ -133,8 +128,8 @@ begin
     Align := TAlignLayout.Top;
     Position.Y := 1000;
 
-    ImageSelecaoA.Bitmap := ImageBrasil.Bitmap;
-    ImageSelecaoB.Bitmap := ImageArgentina.Bitmap;
+    ImageSelecaoA.Bitmap := ImagesBandeiras.MultiResBitmap.Items[24].Bitmap;
+    ImageSelecaoB.Bitmap := ImagesBandeiras.MultiResBitmap.Items[8].Bitmap;
   end;
 
   ListPartidas.AddObject(framePartida);
@@ -161,34 +156,56 @@ end;
 procedure TMainForm.AddTabGrupo(grupo: String);
 var
   frameGrupo: TFrameGrupos;
+  Size: TSizeF;
 begin
   frameGrupo := TFrameGrupos.Create(nil);
+  Size := TSizeF.Create(32,32);
 
-  with frameGrupo do begin
+  with frameGrupo, DM.mtTabelaGrupos do begin
+
+    //mtTabelaGrupos
+    Filter := 'GRUPO = '+grupo.QuotedString;
+    Filtered := True;
+
+    //frameGrupo
     Align := TAlignLayout.Top;
     Position.Y := 1000;
 
     LabelGrupo.Text := 'Grupo '+grupo;
 
-    ImageA.Bitmap := ImageBrasil.Bitmap;
-    ImageB.Bitmap := ImageServia.Bitmap;
-    ImageC.Bitmap := ImageCamaroes.Bitmap;
-    ImageD.Bitmap := ImageDinamarca.Bitmap;
+    //Seleção A
+    LayoutSelecaoA.Tag := FieldByName('ID_SELECAO').AsInteger;
+    LabelSelecaoA.Text := FieldByName('NOME_SELECAO').AsString;//'Brasil';
+    LabelJogosA.Text   := DM.mtTabelaGrupos.FieldByName('JOGOS').AsString + ' Jogos';//'3 Jogos';
+    LabelPontosA.Text  := DM.mtTabelaGrupos.FieldByName('PONTOS').AsString + ' Pontos';//'9 Pontos';
+    ImageA.Bitmap      := ImagesBandeiras.MultiResBitmap.Items[FieldByName('ID_SELECAO').AsInteger -1].Bitmap;
 
-    LabelSelecaoA.Text := 'Brasil';
-    LabelSelecaoB.Text := 'Sérvia';
-    LabelSelecaoC.Text := 'Camarões';
-    LabelSelecaoD.Text := 'Dinamarca';
+    Next;
 
-    LabelJogosA.Text := '3 Jogos';
-    LabelJogosB.Text := '3 Jogos';
-    LabelJogosC.Text := '3 Jogos';
-    LabelJogosD.Text := '3 Jogos';
+    //Seleção B
+    LayoutSelecaoB.Tag := FieldByName('ID_SELECAO').AsInteger;
+    LabelSelecaoB.Text := FieldByName('NOME_SELECAO').AsString;;//'Sérvia';
+    LabelJogosB.Text   := DM.mtTabelaGrupos.FieldByName('JOGOS').AsString + ' Jogos';//'3 Jogos';
+    LabelPontosB.Text  := DM.mtTabelaGrupos.FieldByName('PONTOS').AsString + ' Pontos';//'8 Pontos';
+    ImageB.Bitmap      := ImagesBandeiras.MultiResBitmap.Items[FieldByName('ID_SELECAO').AsInteger -1].Bitmap;
 
-    LabelPontosA.Text := '9 Pontos';
-    LabelPontosA.Text := '8 Pontos';
-    LabelPontosA.Text := '5 Pontos';
-    LabelPontosA.Text := '1 Pontos';
+    Next;
+
+    //Seleção C
+    LayoutSelecaoC.Tag := FieldByName('ID_SELECAO').AsInteger;
+    LabelSelecaoC.Text := FieldByName('NOME_SELECAO').AsString;;//'Suíça';
+    LabelJogosC.Text   := DM.mtTabelaGrupos.FieldByName('JOGOS').AsString + ' Jogos';//'3 Jogos';
+    LabelPontosC.Text  := DM.mtTabelaGrupos.FieldByName('PONTOS').AsString + ' Pontos';//'5 Pontos';
+    ImageC.Bitmap      := ImagesBandeiras.MultiResBitmap.Items[FieldByName('ID_SELECAO').AsInteger -1].Bitmap;
+
+    Next;
+
+    //Seleção D
+    LayoutSelecaoD.Tag := FieldByName('ID_SELECAO').AsInteger;
+    LabelSelecaoD.Text := FieldByName('NOME_SELECAO').AsString;;//'Camarões';
+    LabelJogosD.Text   := DM.mtTabelaGrupos.FieldByName('JOGOS').AsString + ' Jogos';//'3 Jogos';
+    LabelPontosD.Text  := DM.mtTabelaGrupos.FieldByName('PONTOS').AsString + ' Pontos';//'1 Pontos';
+    ImageD.Bitmap      := ImagesBandeiras.MultiResBitmap.Items[FieldByName('ID_SELECAO').AsInteger -1].Bitmap;
 
   end;
 
@@ -240,10 +257,22 @@ end;
 
 procedure TMainForm.ListarTabelasGrupos;
 begin
-  AddTabGrupo('A');
-  AddTabGrupo('B');
-  AddTabGrupo('C');
-  AddTabGrupo('D');
+
+  DM.requestTabela;
+
+  for var I := 1 to 8 do begin
+    case I of
+      1: AddTabGrupo('A');
+      2: AddTabGrupo('B');
+      3: AddTabGrupo('C');
+      4: AddTabGrupo('D');
+      5: AddTabGrupo('E');
+      6: AddTabGrupo('F');
+      7: AddTabGrupo('G');
+      8: AddTabGrupo('H');
+    end;
+  end;
+
 end;
 
 procedure TMainForm.RectApostasTap(Sender: TObject; const Point: TPointF);
@@ -277,6 +306,7 @@ begin
   //Tabela
   ListarTabelasGrupos;
   TabControl.GotoVisibleTab(0);
+
 end;
 
 end.
