@@ -8,7 +8,9 @@ uses
   uDM,
   System.SysUtils,
   System.Classes,
-  System.JSON;
+  System.JSON,
+  System.StrUtils,
+  System.Variants;
 
   procedure Registry;
   procedure GetTabela(Req: THorseRequest; Res: THorseResponse; Next: TProc);
@@ -66,9 +68,11 @@ begin
   try
     try
       var grupoFase := Req.Query['grupoFase'];
-      var idSelecao := Req.Query['idSelecao'].ToInteger;
+      var idSelecao := Req.Query['idSelecao'];
 
-      Res.Send<TJSONArray>(dataModule.ListarPartidas(grupoFase,idSelecao)).Status(200);
+//      idSelecao := ifThen(idSelecao='','0',idSelecao);
+
+      Res.Send<TJSONArray>(dataModule.ListarPartidas(grupoFase, idSelecao)).Status(200);
 
     except on E:Exception do
 

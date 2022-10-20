@@ -74,6 +74,7 @@ type
   private
     { Private declarations }
 
+    procedure DeleteVScrollBoxItems(VSBox: TVertScrollBox; index: Integer = -1);
   public
     { Public declarations }
 
@@ -81,7 +82,8 @@ type
     procedure AddTabGrupo(grupo: String);
 
     procedure ListarPartidas;
-    procedure AddPartida;
+    procedure AddPartida(idPartida: Integer; idSelecaoA, nomeSelecaoA, golsSelecaoA,
+  idSelecaoB, nomeSelecaoB, golsSelecaoB, fase, dataHora: String);
 
     procedure ListarApostas;
     procedure AddAposta;
@@ -118,7 +120,8 @@ begin
 
 end;
 
-procedure TMainForm.AddPartida;
+procedure TMainForm.AddPartida(idPartida: Integer; idSelecaoA, nomeSelecaoA, golsSelecaoA,
+  idSelecaoB, nomeSelecaoB, golsSelecaoB, fase, dataHora: String);
 var
   framePartida: TFramePartidas;
 begin
@@ -128,8 +131,19 @@ begin
     Align := TAlignLayout.Top;
     Position.Y := 1000;
 
-    ImageSelecaoA.Bitmap := ImagesBandeiras.MultiResBitmap.Items[24].Bitmap;
-    ImageSelecaoB.Bitmap := ImagesBandeiras.MultiResBitmap.Items[8].Bitmap;
+    ImageSelecaoA.Bitmap := ImagesBandeiras.MultiResBitmap.Items[idSelecaoA.ToInteger -1].Bitmap;
+    ImageSelecaoB.Bitmap := ImagesBandeiras.MultiResBitmap.Items[idSelecaoB.ToInteger -1].Bitmap;
+
+    Tag := idPartida;
+    LabelSelecaoA.TagString := idSelecaoA;
+    LabelSelecaoA.Text := nomeSelecaoA;
+    LabelGolA.Text := golsSelecaoA;
+    LabelSelecaoB.TagString := idSelecaoB;
+    LabelSelecaoB.Text := nomeSelecaoB;
+    LabelGolB.Text := golsSelecaoB;
+    LabelFase.Text := fase;
+    LabelDataHora.Text := dataHora;
+
   end;
 
   ListPartidas.AddObject(framePartida);
@@ -212,6 +226,22 @@ begin
   ListTabela.AddObject(frameGrupo);
 end;
 
+procedure TMainForm.DeleteVScrollBoxItems(VSBox: TVertScrollBox; index: Integer = -1);
+begin
+  try
+    VSBox.BeginUpdate;
+
+    if index >= 0 then
+      TFrame(VSBox.Content.Children[index]).DisposeOf
+    else
+      for index := VSBox.Content.ChildrenCount -1 downto 0 do
+        TFrame(VSBox.Content.Children[index]).DisposeOf;
+
+  finally
+    VSBox.EndUpdate;
+  end;
+end;
+
 procedure TMainForm.FormShow(Sender: TObject);
 begin
   ListarTabelasGrupos;
@@ -224,29 +254,48 @@ end;
 
 procedure TMainForm.ListarApostas;
 begin
-//  while ListApostas.ChildrenCount > 0 do
-//    ListApostas.RemoveObject(0);
+  DeleteVScrollBoxItems(ListApostas);
+
+  ListApostas.BeginUpdate;
   AddAposta;
   AddAposta;
   AddAposta;
   AddAposta;
+  ListApostas.EndUpdate;
 end;
 
 procedure TMainForm.ListarPartidas;
 begin
-  AddPartida;
-  AddPartida;
-  AddPartida;
-  AddPartida;
-  AddPartida;
-  AddPartida;
-  AddPartida;
-  AddPartida;
-  AddPartida;
+  DeleteVScrollBoxItems(ListPartidas);
+
+  DM.requestPartidas({LabelFiltroGrupos.TagString}'0', {LabelFiltroSelecao.TagString}'0');
+
+  ListPartidas.BeginUpdate;
+
+  with DM.mtPartidas do begin
+    if not IsEmpty then begin
+      while not eof do begin
+        AddPartida(FieldByName('ID_PARTIDA').AsInteger,
+                   FieldByName('ID_SELECAO_A').AsString,
+                   FieldByName('NOME_SELECAO_A').AsString,
+                   FieldByName('GOLS_SELECAO_A').AsString,
+                   FieldByName('ID_SELECAO_B').AsString,
+                   FieldByName('NOME_SELECAO_B').AsString,
+                   FieldByName('GOLS_SELECAO_B').AsString,
+                   FieldByName('FASE').AsString,
+                   FieldByName('DATA_HORA').AsString);
+        Next;
+      end;
+    end;
+  end;
+
+  ListPartidas.EndUpdate;
 end;
 
 procedure TMainForm.ListarRanking;
 begin
+  ListRanking.Items.Clear;
+
   AddRanking('1', 'James Willian', '20 Pontos');
   AddRanking('2', 'Uma Pessoa', '18 Pontos');
   AddRanking('3', 'Outra Pessoa', '14 Pontos');
@@ -256,22 +305,32 @@ begin
 end;
 
 procedure TMainForm.ListarTabelasGrupos;
+var
+  t: TThread;
 begin
+  DeleteVScrollBoxItems(ListTabela);
 
-  DM.requestTabela;
+  t := TThread.CreateAnonymousThread(procedure
+  begin
+    DM.requestTabela;
 
-  for var I := 1 to 8 do begin
-    case I of
-      1: AddTabGrupo('A');
-      2: AddTabGrupo('B');
-      3: AddTabGrupo('C');
-      4: AddTabGrupo('D');
-      5: AddTabGrupo('E');
-      6: AddTabGrupo('F');
-      7: AddTabGrupo('G');
-      8: AddTabGrupo('H');
+    ListTabela.BeginUpdate;
+    for var I := 1 to 8 do begin
+      case I of
+        1: AddTabGrupo('A');
+        2: AddTabGrupo('B');
+        3: AddTabGrupo('C');
+        4: AddTabGrupo('D');
+        5: AddTabGrupo('E');
+        6: AddTabGrupo('F');
+        7: AddTabGrupo('G');
+        8: AddTabGrupo('H');
+      end;
     end;
-  end;
+    ListTabela.EndUpdate;
+  end);
+
+  t.Start;
 
 end;
 

@@ -1,6 +1,6 @@
 object FramePartidas: TFramePartidas
   Size.Width = 331.000000000000000000
-  Size.Height = 71.000000000000000000
+  Size.Height = 80.000000000000000000
   Size.PlatformDefault = False
   object RectFull: TRectangle
     Align = Contents
@@ -10,16 +10,16 @@ object FramePartidas: TFramePartidas
     Margins.Right = 2.000000000000000000
     Margins.Bottom = 2.000000000000000000
     Size.Width = 327.000000000000000000
-    Size.Height = 67.000000000000000000
+    Size.Height = 76.000000000000000000
     Size.PlatformDefault = False
     Stroke.Kind = None
     XRadius = 5.000000000000000000
     YRadius = 5.000000000000000000
     object LayoutSelecaoA: TLayout
       Align = Left
-      Position.Y = 15.000000000000000000
+      Position.Y = 20.000000000000000000
       Size.Width = 161.000000000000000000
-      Size.Height = 35.000000000000000000
+      Size.Height = 36.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
       object ImageSelecaoA: TImage
@@ -36,7 +36,7 @@ object FramePartidas: TFramePartidas
         Position.X = 12.000000000000000000
         Position.Y = 2.000000000000000000
         Size.Width = 51.000000000000000000
-        Size.Height = 31.000000000000000000
+        Size.Height = 32.000000000000000000
         Size.PlatformDefault = False
       end
       object LabelSelecaoA: TLabel
@@ -44,10 +44,11 @@ object FramePartidas: TFramePartidas
         StyledSettings = []
         Position.X = 68.000000000000000000
         Size.Width = 93.000000000000000000
-        Size.Height = 35.000000000000000000
+        Size.Height = 36.000000000000000000
         Size.PlatformDefault = False
         TextSettings.Font.Family = 'Corbel'
         TextSettings.Font.Size = 16.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
         TextSettings.FontColor = claAliceblue
         Text = 'Sele'#231#227'o A'
         TabOrder = 1
@@ -56,9 +57,9 @@ object FramePartidas: TFramePartidas
     object LayoutSelecaoB: TLayout
       Align = Right
       Position.X = 164.000000000000000000
-      Position.Y = 15.000000000000000000
+      Position.Y = 20.000000000000000000
       Size.Width = 163.000000000000000000
-      Size.Height = 35.000000000000000000
+      Size.Height = 36.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
       object ImageSelecaoB: TImage
@@ -75,7 +76,7 @@ object FramePartidas: TFramePartidas
         Position.X = 106.000000000000000000
         Position.Y = 2.000000000000000000
         Size.Width = 45.000000000000000000
-        Size.Height = 31.000000000000000000
+        Size.Height = 32.000000000000000000
         Size.PlatformDefault = False
       end
       object LabelSelecaoB: TLabel
@@ -83,10 +84,11 @@ object FramePartidas: TFramePartidas
         StyledSettings = []
         Position.X = 7.000000000000000000
         Size.Width = 94.000000000000000000
-        Size.Height = 35.000000000000000000
+        Size.Height = 36.000000000000000000
         Size.PlatformDefault = False
         TextSettings.Font.Family = 'Corbel'
         TextSettings.Font.Size = 16.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
         TextSettings.FontColor = claAliceblue
         TextSettings.HorzAlign = Trailing
         Text = 'Sele'#231#227'o B'
@@ -146,17 +148,19 @@ object FramePartidas: TFramePartidas
     object LayoutTop: TLayout
       Align = Top
       Size.Width = 327.000000000000000000
-      Size.Height = 15.000000000000000000
+      Size.Height = 20.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 3
       object LabelFase: TLabel
         Align = Client
         StyledSettings = []
+        Locked = True
         Margins.Top = 5.000000000000000000
         Size.Width = 327.000000000000000000
-        Size.Height = 10.000000000000000000
+        Size.Height = 15.000000000000000000
         Size.PlatformDefault = False
         TextSettings.Font.Family = 'Corbel'
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
         TextSettings.FontColor = claAliceblue
         TextSettings.HorzAlign = Center
         Text = 'SemiFinal'
@@ -165,17 +169,18 @@ object FramePartidas: TFramePartidas
     end
     object Layout1: TLayout
       Align = Bottom
-      Position.Y = 50.000000000000000000
+      Position.Y = 56.000000000000000000
       Size.Width = 327.000000000000000000
-      Size.Height = 17.000000000000000000
+      Size.Height = 20.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 4
       object LabelDataHora: TLabel
         Align = Client
         StyledSettings = []
+        Locked = True
         Margins.Bottom = 5.000000000000000000
         Size.Width = 327.000000000000000000
-        Size.Height = 12.000000000000000000
+        Size.Height = 15.000000000000000000
         Size.PlatformDefault = False
         TextSettings.Font.Family = 'Corbel'
         TextSettings.FontColor = claAliceblue

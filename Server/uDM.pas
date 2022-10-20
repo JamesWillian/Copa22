@@ -20,7 +20,7 @@ type
   public
     { Public declarations }
     function ListarTabelaGrupos: TJSONArray;
-    function ListarPartidas(faseGrupo: String; idSelecao: Integer = 0): TJSONArray;
+    function ListarPartidas(faseGrupo, idSelecao: String): TJSONArray;
     function ListarApostas(idUsuario: Integer): TJSONArray;
     function ListarRanking: TJSONArray;
     function PontosUsuario(idUsuario: Integer): TJSONObject;
@@ -129,23 +129,23 @@ begin
     'where A.ID_USUARIO='+idUsuario.ToString);
 end;
 
-function TDM.ListarPartidas(faseGrupo: String;
-  idSelecao: Integer): TJSONArray;
+function TDM.ListarPartidas(faseGrupo, idSelecao: String): TJSONArray;
 begin
   var vSQL :=
     'select P.ID_PARTIDA, '+
-    ' S1.ID_SELECAO as ID_SELECAO_A, S1.SELECAO as NOME_SELECAO_A, P.GOLS_1 as GOLS_SELECAO_A, '+
-    ' S2.ID_SELECAO as ID_SELECAO_B, S2.SELECAO as NOME_SELECAO_B, P.GOLS_2 as GOLS_SELECAO_B, '+
+    ' S1.ID_SELECAO as ID_SELECAO_A, S1.SELECAO as NOME_SELECAO_A, coalesce(P.GOLS_1, ''--'') as GOLS_SELECAO_A, '+
+    ' S2.ID_SELECAO as ID_SELECAO_B, S2.SELECAO as NOME_SELECAO_B, coalesce(P.GOLS_2, ''--'') as GOLS_SELECAO_B, '+
     ' P.FASE, (lpad(extract(day from P.DATA),2,''0'')||''-''||extract(month from P.DATA)||'' ''|| extract(hour from P.HORA)||''h'') as DATA_HORA '+
     'from PARTIDAS P '+
     'inner join SELECOES S1 on S1.ID_SELECAO=P.ID_SELECAO_1 '+
     'inner join SELECOES S2 on S2.ID_SELECAO=P.ID_SELECAO_2 '+
-    'where ((p.ID_SELECAO_1 = '+idSelecao.ToString+' or P.ID_SELECAO_2 = '+idSelecao.ToString+') or (0='+idSelecao.ToString+')) ';
+    'where ((p.ID_SELECAO_1 = '+idSelecao+' or P.ID_SELECAO_2 = '+idSelecao+') or (0='+idSelecao+')) ';
 
-    case StrToIntDef(faseGrupo[1],9) of
+    if faseGrupo<>'' then    
+    case StrToInt(faseGrupo[1]) of
       0: vSQL := vSQL+' and (P.FASE starting with ''Grupo''); ';
       1: vSQL := vSQL+' and not(P.FASE starting with ''Grupo''); ';
-      9: vSQL := vSQL+' and (P.FASE = '+faseGrupo.QuotedString+'); ';
+      else vSQL := vSQL+' and (P.FASE = '+faseGrupo.QuotedString+'); ';
     end;
 
   Result := SQLToJSONArray(vSQL);
