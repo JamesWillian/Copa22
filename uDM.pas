@@ -12,14 +12,19 @@ type
   TDM = class(TDataModule)
     mtTabelaGrupos: TFDMemTable;
     mtPartidas: TFDMemTable;
+    mtApostas: TFDMemTable;
+    procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
     const BASE_URL = 'http://10.0.0.115:9000';
+    var idUsuario: Integer;
   public
     { Public declarations }
 
     procedure requestTabela;
     procedure requestPartidas(grupoFase, idSelecao: String);
+    procedure requestApostas;
+    function requestPontosUser: Integer;
   end;
 
 var
@@ -32,6 +37,27 @@ implementation
 {$R *.dfm}
 
 { TDM }
+
+procedure TDM.DataModuleCreate(Sender: TObject);
+begin
+  idUsuario := 1;
+end;
+
+procedure TDM.requestApostas;
+var
+  Resp: IResponse;
+begin
+  Resp := TRequest.New.BaseURL(BASE_URL)
+            .Resource('/apostas')
+            .ResourceSuffix(idUsuario.ToString)
+            .DataSetAdapter(mtApostas)
+            .Accept('application/json')
+            .Get;
+
+  if Resp.StatusCode <> 200 then
+    raise Exception.Create(Resp.Content);
+
+end;
 
 procedure TDM.requestPartidas(grupoFase, idSelecao: String);
 var
@@ -47,6 +73,23 @@ begin
 
   if Resp.StatusCode <> 200 then
     raise Exception.Create(Resp.Content);
+
+end;
+
+function TDM.requestPontosUser: Integer;
+var
+  Resp: IResponse;
+begin
+  Resp := TRequest.New.BaseURL(BASE_URL)
+            .Resource('/pontos')
+            .ResourceSuffix(idUsuario.ToString)
+            .Accept('application/json')
+            .Get;
+
+  if Resp.StatusCode <> 200 then
+    raise Exception.Create(Resp.Content);
+
+  Result := Resp.JSONValue.GetValue<Integer>('pontos');
 
 end;
 

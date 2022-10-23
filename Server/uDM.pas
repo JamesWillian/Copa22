@@ -126,7 +126,8 @@ begin
     'inner join PARTIDAS P on P.ID_PARTIDA=A.ID_PARTIDA '+
     'inner join SELECOES S1 on S1.ID_SELECAO=P.ID_SELECAO_1 '+
     'inner join SELECOES S2 on S2.ID_SELECAO=P.ID_SELECAO_2 '+
-    'where A.ID_USUARIO='+idUsuario.ToString);
+    'where A.ID_USUARIO='+idUsuario.ToString+
+    ' order by A.ID_APOSTA desc');
 end;
 
 function TDM.ListarPartidas(faseGrupo, idSelecao: String): TJSONArray;
@@ -141,12 +142,14 @@ begin
     'inner join SELECOES S2 on S2.ID_SELECAO=P.ID_SELECAO_2 '+
     'where ((p.ID_SELECAO_1 = '+idSelecao+' or P.ID_SELECAO_2 = '+idSelecao+') or (0='+idSelecao+')) ';
 
-    if faseGrupo<>'' then    
-    case StrToInt(faseGrupo[1]) of
-      0: vSQL := vSQL+' and (P.FASE starting with ''Grupo''); ';
-      1: vSQL := vSQL+' and not(P.FASE starting with ''Grupo''); ';
-      else vSQL := vSQL+' and (P.FASE = '+faseGrupo.QuotedString+'); ';
-    end;
+    if faseGrupo = '0' then
+      vSQL := vSQL+' and (P.FASE starting with ''Grupo''); '
+
+    else
+    if faseGrupo = '1' then
+      vSQL := vSQL+' and not(P.FASE starting with ''Grupo''); '
+
+    else vSQL := vSQL+' and (P.FASE = ''Grupo ''||'+faseGrupo.QuotedString+'); ';
 
   Result := SQLToJSONArray(vSQL);
 end;

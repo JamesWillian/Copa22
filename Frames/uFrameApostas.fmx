@@ -22,7 +22,7 @@ object FrameApostas: TFrameApostas
         Size.Height = 31.000000000000000000
         Size.PlatformDefault = False
         TextSettings.Font.Family = 'Corbel'
-        TextSettings.Font.Size = 18.000000000000000000
+        TextSettings.Font.Size = 20.000000000000000000
         TextSettings.Font.StyleExt = {00070000000000000004000000}
         TextSettings.FontColor = claDimgray
         TextSettings.HorzAlign = Center
@@ -51,7 +51,7 @@ object FrameApostas: TFrameApostas
         Size.Height = 31.000000000000000000
         Size.PlatformDefault = False
         TextSettings.Font.Family = 'Corbel'
-        TextSettings.Font.Size = 18.000000000000000000
+        TextSettings.Font.Size = 20.000000000000000000
         TextSettings.Font.StyleExt = {00070000000000000004000000}
         TextSettings.FontColor = claDimgray
         TextSettings.HorzAlign = Center
@@ -149,7 +149,7 @@ object FrameApostas: TFrameApostas
       Size.Height = 50.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 2
-      object Label1: TLabel
+      object LabelData: TLabel
         Align = Top
         StyledSettings = []
         Margins.Left = 15.000000000000000000
@@ -162,10 +162,11 @@ object FrameApostas: TFrameApostas
         TextSettings.Font.Family = 'Corbel'
         TextSettings.Font.Size = 14.000000000000000000
         TextSettings.FontColor = claDimgray
+        TextSettings.HorzAlign = Center
         Text = '10/12/2022'
         TabOrder = 0
       end
-      object Label2: TLabel
+      object LabelHora: TLabel
         Align = Top
         StyledSettings = []
         Margins.Left = 15.000000000000000000
@@ -177,6 +178,7 @@ object FrameApostas: TFrameApostas
         TextSettings.Font.Family = 'Corbel'
         TextSettings.Font.Size = 14.000000000000000000
         TextSettings.FontColor = claDimgray
+        TextSettings.HorzAlign = Center
         Text = '13 horas'
         TabOrder = 1
       end
@@ -214,6 +216,19 @@ object FrameApostas: TFrameApostas
           TabOrder = 0
         end
       end
+      object LabelPontosPartida: TLabel
+        Align = Center
+        StyledSettings = []
+        Size.Width = 95.000000000000000000
+        Size.Height = 17.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Family = 'Corbel'
+        TextSettings.Font.Size = 18.000000000000000000
+        TextSettings.FontColor = claDimgray
+        TextSettings.HorzAlign = Center
+        Text = 'Pontos'
+        TabOrder = 0
+      end
     end
     object Layout5: TLayout
       Align = Client
@@ -221,7 +236,7 @@ object FrameApostas: TFrameApostas
       Size.Height = 50.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
-      object Label3: TLabel
+      object LabelResultPartida: TLabel
         Align = Top
         StyledSettings = []
         Margins.Top = 2.000000000000000000
@@ -237,7 +252,7 @@ object FrameApostas: TFrameApostas
         Text = 'Resultado: 3 x 2'
         TabOrder = 1
       end
-      object Label4: TLabel
+      object LabelFase: TLabel
         Align = Top
         StyledSettings = []
         Margins.Top = 5.000000000000000000
@@ -255,7 +270,7 @@ object FrameApostas: TFrameApostas
       end
     end
   end
-  object Rectangle1: TRectangle
+  object RectCor: TRectangle
     Align = MostLeft
     Fill.Color = claLimegreen
     Margins.Top = 3.000000000000000000

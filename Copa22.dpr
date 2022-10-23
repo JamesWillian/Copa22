@@ -7,7 +7,8 @@ uses
   uFrameGrupos in 'Frames\uFrameGrupos.pas' {FrameGrupos: TFrame},
   uFramePartidas in 'Frames\uFramePartidas.pas' {FramePartidas: TFrame},
   uFrameApostas in 'Frames\uFrameApostas.pas' {FrameApostas: TFrame},
-  uDM in 'uDM.pas' {DM: TDataModule};
+  uDM in 'uDM.pas' {DM: TDataModule},
+  uCombobox in 'uCombobox.pas';
 
 {$R *.res}
 

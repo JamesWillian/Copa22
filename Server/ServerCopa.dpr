@@ -16,8 +16,8 @@ begin
 
   THorse.Use(Jhonson());
 
-  THorse.Host := '10.0.0.115';
-  THorse.Port := 9000;
+//  THorse.Host := '127.0.0.1';
+  THorse.Port := 4647;
 
   Registry;
 

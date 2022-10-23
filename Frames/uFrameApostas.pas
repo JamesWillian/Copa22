@@ -24,14 +24,15 @@ type
     LayoutSelecaoB: TLayout;
     ImageSelecaoB: TImage;
     LabelSelecaoB: TLabel;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
+    LabelData: TLabel;
+    LabelHora: TLabel;
+    LabelResultPartida: TLabel;
+    LabelFase: TLabel;
     RectButtonAberto: TRectangle;
     LabelButton: TLabel;
-    Rectangle1: TRectangle;
+    RectCor: TRectangle;
     Line1: TLine;
+    LabelPontosPartida: TLabel;
   private
     { Private declarations }
   public

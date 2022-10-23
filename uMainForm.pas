@@ -1,4 +1,4 @@
-unit uMainForm;
+﻿unit uMainForm;
 
 interface
 
@@ -7,7 +7,8 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
   FMX.Layouts, FMX.Objects, FMX.ListView, FMX.Controls.Presentation,
-  FMX.StdCtrls, FMX.TabControl, uDM, System.ImageList, FMX.ImgList;
+  FMX.StdCtrls, FMX.TabControl, uDM, System.ImageList, FMX.ImgList,
+  uCombobox, System.StrUtils;
 
 type
   TMainForm = class(TForm)
@@ -71,10 +72,19 @@ type
     procedure FormShow(Sender: TObject);
     procedure Image5Click(Sender: TObject);
     procedure RectNovaApostaClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure LabelFiltroGruposClick(Sender: TObject);
+    procedure LabelFiltroSelecaoClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
 
+    comboFase: TCustomCombo;
+    comboSelecao: TCustomCombo;
+
     procedure DeleteVScrollBoxItems(VSBox: TVertScrollBox; index: Integer = -1);
+    procedure ItemFaseClick(Sender: TObject; const Point: TPointF);
+    procedure ItemSelecaoClick(Sender: TObject; const Point: TPointF);
   public
     { Public declarations }
 
@@ -86,7 +96,10 @@ type
   idSelecaoB, nomeSelecaoB, golsSelecaoB, fase, dataHora: String);
 
     procedure ListarApostas;
-    procedure AddAposta;
+    procedure AddAposta(idAposta, idPartida: Integer;
+        idSelecaoA, nomeSelecaoA, golsApostaA, golsPartidaA,
+        idSelecaoB, nomeSelecaoB, golsApostaB, golsPartidaB,
+        grupoFase, dataPartida, horaPartida, pontos: String);
 
     procedure ListarRanking;
     procedure AddRanking(posicao, nome, pontos: String);
@@ -102,7 +115,10 @@ implementation
 uses
   uFramePartidas, uFrameApostas, uFrameGrupos;
 
-procedure TMainForm.AddAposta;
+procedure TMainForm.AddAposta(idAposta, idPartida: Integer;
+        idSelecaoA, nomeSelecaoA, golsApostaA, golsPartidaA,
+        idSelecaoB, nomeSelecaoB, golsApostaB, golsPartidaB,
+        grupoFase, dataPartida, horaPartida, pontos: String);
 var
   frameAposta: TFrameApostas;
 begin
@@ -112,8 +128,42 @@ begin
     Align := TAlignLayout.Top;
     Position.Y := 1000;
 
-    ImageSelecaoA.Bitmap := ImagesBandeiras.MultiResBitmap.Items[24].Bitmap;
-    ImageSelecaoB.Bitmap := ImagesBandeiras.MultiResBitmap.Items[12].Bitmap;
+    ImageSelecaoA.Bitmap := ImagesBandeiras.MultiResBitmap.Items[idSelecaoA.ToInteger -1].Bitmap;
+    ImageSelecaoB.Bitmap := ImagesBandeiras.MultiResBitmap.Items[idSelecaoB.ToInteger -1].Bitmap;
+
+    Tag := idAposta;
+    LabelSelecaoA.TagString := idSelecaoA;
+    LabelSelecaoA.Text := nomeSelecaoA;
+    LabelGolA.Text := golsApostaA;
+
+    LabelResultPartida.Text := IfThen(golsPartidaA='','','Resultado: ' + golsPartidaA + ' x ' + golsPartidaB);
+
+    LabelSelecaoB.TagString := idSelecaoB;
+    LabelSelecaoB.Text := nomeSelecaoB;
+    LabelGolB.Text := golsApostaB;
+
+    LabelFase.Text := grupoFase;
+    LabelData.Text := dataPartida;
+    LabelHora.Text := horaPartida;
+    LabelPontosPartida.Text := IfThen(pontos='','','+'+pontos+' Ponto'+IfThen(pontos='3','s',''));
+
+    case StrToInt(pontos) of
+      0,1: begin
+        LabelPontosPartida.TextSettings.FontColor := TAlphaColorRec.Midnightblue;
+        RectCor.Fill.Color := TAlphaColorRec.Red;
+      end;
+      3: begin
+        LabelPontosPartida.TextSettings.FontColor := TAlphaColorRec.Goldenrod;
+        RectCor.Fill.Color := TAlphaColorRec.Limegreen;
+      end;
+    end;
+
+    RectButtonAberto.Visible := (LabelResultPartida.Text = '');
+    LabelPontosPartida.Visible := (StrToInt(pontos)>0);
+
+    if RectButtonAberto.Visible then
+      RectCor.Fill.Color := TAlphaColorRec.Darkgray;
+
   end;
 
   ListApostas.AddObject(frameAposta);
@@ -187,7 +237,7 @@ begin
 
     LabelGrupo.Text := 'Grupo '+grupo;
 
-    //Sele��o A
+    //Seleção A
     LayoutSelecaoA.Tag := FieldByName('ID_SELECAO').AsInteger;
     LabelSelecaoA.Text := FieldByName('NOME_SELECAO').AsString;//'Brasil';
     LabelJogosA.Text   := DM.mtTabelaGrupos.FieldByName('JOGOS').AsString + ' Jogos';//'3 Jogos';
@@ -196,27 +246,27 @@ begin
 
     Next;
 
-    //Sele��o B
+    //Seleção B
     LayoutSelecaoB.Tag := FieldByName('ID_SELECAO').AsInteger;
-    LabelSelecaoB.Text := FieldByName('NOME_SELECAO').AsString;;//'S�rvia';
+    LabelSelecaoB.Text := FieldByName('NOME_SELECAO').AsString;;//'Sérvia';
     LabelJogosB.Text   := DM.mtTabelaGrupos.FieldByName('JOGOS').AsString + ' Jogos';//'3 Jogos';
     LabelPontosB.Text  := DM.mtTabelaGrupos.FieldByName('PONTOS').AsString + ' Pontos';//'8 Pontos';
     ImageB.Bitmap      := ImagesBandeiras.MultiResBitmap.Items[FieldByName('ID_SELECAO').AsInteger -1].Bitmap;
 
     Next;
 
-    //Sele��o C
+    //Seleção C
     LayoutSelecaoC.Tag := FieldByName('ID_SELECAO').AsInteger;
-    LabelSelecaoC.Text := FieldByName('NOME_SELECAO').AsString;;//'Su��a';
+    LabelSelecaoC.Text := FieldByName('NOME_SELECAO').AsString;;//'Suíça';
     LabelJogosC.Text   := DM.mtTabelaGrupos.FieldByName('JOGOS').AsString + ' Jogos';//'3 Jogos';
     LabelPontosC.Text  := DM.mtTabelaGrupos.FieldByName('PONTOS').AsString + ' Pontos';//'5 Pontos';
     ImageC.Bitmap      := ImagesBandeiras.MultiResBitmap.Items[FieldByName('ID_SELECAO').AsInteger -1].Bitmap;
 
     Next;
 
-    //Sele��o D
+    //Seleção D
     LayoutSelecaoD.Tag := FieldByName('ID_SELECAO').AsInteger;
-    LabelSelecaoD.Text := FieldByName('NOME_SELECAO').AsString;;//'Camar�es';
+    LabelSelecaoD.Text := FieldByName('NOME_SELECAO').AsString;;//'Camarões';
     LabelJogosD.Text   := DM.mtTabelaGrupos.FieldByName('JOGOS').AsString + ' Jogos';//'3 Jogos';
     LabelPontosD.Text  := DM.mtTabelaGrupos.FieldByName('PONTOS').AsString + ' Pontos';//'1 Pontos';
     ImageD.Bitmap      := ImagesBandeiras.MultiResBitmap.Items[FieldByName('ID_SELECAO').AsInteger -1].Bitmap;
@@ -242,8 +292,80 @@ begin
   end;
 end;
 
+procedure TMainForm.FormCreate(Sender: TObject);
+begin
+  comboFase := TCustomCombo.Create(Self);
+  comboSelecao := TCustomCombo.Create(Self);
+
+  //GRUPOS
+  comboFase.TitleMenuText := 'Selecione o Grupo ou Fase que deseja filtrar';
+  comboFase.BackgroundColor := $FFF2F2F8;
+  comboFase.OnClick := ItemFaseClick;
+
+  comboFase.AddItem('0', 'Todos Grupos');
+  comboFase.AddItem('A', 'Grupo A');
+  comboFase.AddItem('B', 'Grupo B');
+  comboFase.AddItem('C', 'Grupo C');
+  comboFase.AddItem('D', 'Grupo D');
+  comboFase.AddItem('E', 'Grupo E');
+  comboFase.AddItem('F', 'Grupo F');
+  comboFase.AddItem('G', 'Grupo G');
+  comboFase.AddItem('H', 'Grupo H');
+
+  //SELEÇÕES
+  comboSelecao.TitleMenuText := 'Selecione a Seleção que deseja filtrar';
+  comboSelecao.BackgroundColor := $FFF2F2F8;
+  comboSelecao.OnClick := ItemSelecaoClick;
+
+  comboSelecao.AddItem('0', 'Todas Seleções');
+  comboSelecao.AddItem('1', 'Catar');
+  comboSelecao.AddItem('2', 'Equador');
+  comboSelecao.AddItem('3', 'Senegal');
+  comboSelecao.AddItem('4', 'Holanda');
+  comboSelecao.AddItem('5', 'Inglaterra');
+  comboSelecao.AddItem('6', 'Irã');
+  comboSelecao.AddItem('7', 'Estados Unidos');
+  comboSelecao.AddItem('8', 'País de Gales');
+  comboSelecao.AddItem('9', 'Argentina');
+  comboSelecao.AddItem('10', 'Arábia Saudita');
+  comboSelecao.AddItem('11', 'México');
+  comboSelecao.AddItem('12', 'Polônia');
+  comboSelecao.AddItem('13', 'França');
+  comboSelecao.AddItem('14', 'Austrália');
+  comboSelecao.AddItem('15', 'Dinamarca');
+  comboSelecao.AddItem('16', 'Tunísia');
+  comboSelecao.AddItem('17', 'Espanha');
+  comboSelecao.AddItem('18', 'Costa Rica');
+  comboSelecao.AddItem('19', 'Alemanha');
+  comboSelecao.AddItem('20', 'Japão');
+  comboSelecao.AddItem('21', 'Bélgica');
+  comboSelecao.AddItem('22', 'Canadá');
+  comboSelecao.AddItem('23', 'Marrocos');
+  comboSelecao.AddItem('24', 'Croácia');
+  comboSelecao.AddItem('25', 'Brasil');
+  comboSelecao.AddItem('26', 'Sérvia');
+  comboSelecao.AddItem('27', 'Suíça');
+  comboSelecao.AddItem('28', 'Camarões');
+  comboSelecao.AddItem('29', 'Portugal');
+  comboSelecao.AddItem('30', 'Gana');
+  comboSelecao.AddItem('31', 'Uruguai');
+  comboSelecao.AddItem('32', 'Coreia do Sul');
+
+  LabelFiltroGrupos.TagString := '0';
+  LabelFiltroSelecao.TagString := '0';
+
+end;
+
+procedure TMainForm.FormDestroy(Sender: TObject);
+begin
+  comboFase.DisposeOf;
+  comboSelecao.DisposeOf;
+end;
+
 procedure TMainForm.FormShow(Sender: TObject);
 begin
+  LabelPontos.Text := IntToStr(DM.requestPontosUser)+' Pontos';
+
   ListarTabelasGrupos;
 end;
 
@@ -252,44 +374,104 @@ begin
   RectAposta.Visible := False;
 end;
 
+procedure TMainForm.ItemFaseClick(Sender: TObject; const Point: TPointF);
+begin
+  comboFase.HideMenu;
+
+  LabelFiltroGrupos.TagString := comboFase.CodItem;
+  LabelFiltroGrupos.Text := comboFase.DescrItem + ' ▼';
+  ListarPartidas;
+end;
+
+procedure TMainForm.ItemSelecaoClick(Sender: TObject; const Point: TPointF);
+begin
+  comboSelecao.HideMenu;
+
+  LabelFiltroSelecao.TagString := comboSelecao.CodItem;
+  LabelFiltroSelecao.Text := comboSelecao.DescrItem + ' ▼';
+  ListarPartidas;
+end;
+
+procedure TMainForm.LabelFiltroGruposClick(Sender: TObject);
+begin
+  comboFase.ShowMenu;
+end;
+
+procedure TMainForm.LabelFiltroSelecaoClick(Sender: TObject);
+begin
+  comboSelecao.ShowMenu;
+end;
+
 procedure TMainForm.ListarApostas;
+var
+  t: TThread;
 begin
   DeleteVScrollBoxItems(ListApostas);
 
-  ListApostas.BeginUpdate;
-  AddAposta;
-  AddAposta;
-  AddAposta;
-  AddAposta;
-  ListApostas.EndUpdate;
-end;
+  t := TThread.CreateAnonymousThread(procedure
+  begin
+    DM.requestApostas;
 
-procedure TMainForm.ListarPartidas;
-begin
-  DeleteVScrollBoxItems(ListPartidas);
+    ListApostas.BeginUpdate;
 
-  DM.requestPartidas({LabelFiltroGrupos.TagString}'0', {LabelFiltroSelecao.TagString}'0');
-
-  ListPartidas.BeginUpdate;
-
-  with DM.mtPartidas do begin
-    if not IsEmpty then begin
+    with DM.mtApostas do begin
       while not eof do begin
-        AddPartida(FieldByName('ID_PARTIDA').AsInteger,
-                   FieldByName('ID_SELECAO_A').AsString,
-                   FieldByName('NOME_SELECAO_A').AsString,
-                   FieldByName('GOLS_SELECAO_A').AsString,
-                   FieldByName('ID_SELECAO_B').AsString,
-                   FieldByName('NOME_SELECAO_B').AsString,
-                   FieldByName('GOLS_SELECAO_B').AsString,
-                   FieldByName('FASE').AsString,
-                   FieldByName('DATA_HORA').AsString);
+        AddAposta(FieldByName('ID_APOSTA').AsInteger,
+                  FieldByName('ID_PARTIDA').AsInteger,
+                  FieldByName('ID_SELECAO_A').AsString,
+                  FieldByName('NOME_SELECAO_A').AsString,
+                  FieldByName('GOLS_APOSTA_A').AsString,
+                  FieldByName('GOLS_PARTIDA_A').AsString,
+                  FieldByName('ID_SELECAO_B').AsString,
+                  FieldByName('NOME_SELECAO_B').AsString,
+                  FieldByName('GOLS_APOSTA_B').AsString,
+                  FieldByName('GOLS_PARTIDA_B').AsString,
+                  FieldByName('GRUPO_FASE').AsString,
+                  FieldByName('DATA').AsString,
+                  FieldByName('HORA').AsString,
+                  FieldByName('PONTOS').AsString);
         Next;
       end;
     end;
-  end;
+    ListApostas.EndUpdate;
+  end);
 
-  ListPartidas.EndUpdate;
+  t.Start;
+end;
+
+procedure TMainForm.ListarPartidas;
+var
+  t: TThread;
+begin
+  DeleteVScrollBoxItems(ListPartidas);
+
+  t := TThread.CreateAnonymousThread(procedure
+  begin
+    DM.requestPartidas(LabelFiltroGrupos.TagString, LabelFiltroSelecao.TagString);
+
+    ListPartidas.BeginUpdate;
+
+    with DM.mtPartidas do begin
+      if not IsEmpty then begin
+        while not eof do begin
+          AddPartida(FieldByName('ID_PARTIDA').AsInteger,
+                     FieldByName('ID_SELECAO_A').AsString,
+                     FieldByName('NOME_SELECAO_A').AsString,
+                     FieldByName('GOLS_SELECAO_A').AsString,
+                     FieldByName('ID_SELECAO_B').AsString,
+                     FieldByName('NOME_SELECAO_B').AsString,
+                     FieldByName('GOLS_SELECAO_B').AsString,
+                     FieldByName('FASE').AsString,
+                     FieldByName('DATA_HORA').AsString);
+          Next;
+        end;
+      end;
+    end;
+
+    ListPartidas.EndUpdate;
+  end);
+
+  t.Start;
 end;
 
 procedure TMainForm.ListarRanking;
@@ -300,7 +482,7 @@ begin
   AddRanking('2', 'Uma Pessoa', '18 Pontos');
   AddRanking('3', 'Outra Pessoa', '14 Pontos');
   AddRanking('4', 'Pessoa Sem Nome', '10 Pontos');
-  AddRanking('5', 'Algu�m', '9 Pontos');
+  AddRanking('5', 'Alguém', '9 Pontos');
   AddRanking('6', 'Desconhecido', '8 Pontos');
 end;
 
