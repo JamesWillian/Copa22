@@ -1,10 +1,12 @@
 object FrameGrupos: TFrameGrupos
+  HitTest = False
   Size.Width = 331.000000000000000000
   Size.Height = 160.000000000000000000
   Size.PlatformDefault = False
   object RectGruposFull: TRectangle
     Align = Contents
     Fill.Color = xFF168AAE
+    HitTest = False
     Margins.Left = 2.000000000000000000
     Margins.Top = 2.000000000000000000
     Margins.Right = 2.000000000000000000
@@ -33,6 +35,7 @@ object FrameGrupos: TFrameGrupos
     end
     object LayoutSelecaoA: TLayout
       Align = Top
+      HitTest = True
       Margins.Top = 2.000000000000000000
       Position.Y = 25.000000000000000000
       Size.Width = 327.000000000000000000
@@ -46,17 +49,23 @@ object FrameGrupos: TFrameGrupos
           item
           end>
         Align = MostLeft
+        Locked = True
+        HitTest = False
         Opacity = 0.899999976158142100
         Margins.Left = 12.000000000000000000
+        Margins.Top = 2.000000000000000000
         Margins.Right = 8.000000000000000000
+        Margins.Bottom = 2.000000000000000000
         Position.X = 12.000000000000000000
+        Position.Y = 2.000000000000000000
         Size.Width = 33.000000000000000000
-        Size.Height = 30.000000000000000000
+        Size.Height = 26.000000000000000000
         Size.PlatformDefault = False
       end
       object LineA: TLine
         Align = Contents
         Locked = True
+        HitTest = False
         LineType = Bottom
         Margins.Left = 5.000000000000000000
         Margins.Right = 5.000000000000000000
@@ -68,6 +77,7 @@ object FrameGrupos: TFrameGrupos
       object LabelSelecaoA: TLabel
         Align = Client
         StyledSettings = []
+        Locked = True
         Size.Width = 139.000000000000000000
         Size.Height = 30.000000000000000000
         Size.PlatformDefault = False
@@ -78,6 +88,7 @@ object FrameGrupos: TFrameGrupos
       object LabelPontosA: TLabel
         Align = MostRight
         StyledSettings = []
+        Locked = True
         Margins.Right = 12.000000000000000000
         Position.X = 256.000000000000000000
         Size.Width = 59.000000000000000000
@@ -92,6 +103,7 @@ object FrameGrupos: TFrameGrupos
       object LabelJogosA: TLabel
         Align = MostRight
         StyledSettings = []
+        Locked = True
         Margins.Right = 8.000000000000000000
         Position.X = 192.000000000000000000
         Size.Width = 56.000000000000000000
@@ -106,6 +118,7 @@ object FrameGrupos: TFrameGrupos
     end
     object LayoutSelecaoB: TLayout
       Align = Top
+      HitTest = True
       Margins.Top = 2.000000000000000000
       Position.Y = 57.000000000000000000
       Size.Width = 327.000000000000000000
@@ -119,16 +132,22 @@ object FrameGrupos: TFrameGrupos
           item
           end>
         Align = MostLeft
+        Locked = True
+        HitTest = False
         Margins.Left = 12.000000000000000000
+        Margins.Top = 2.000000000000000000
         Margins.Right = 8.000000000000000000
+        Margins.Bottom = 2.000000000000000000
         Position.X = 12.000000000000000000
+        Position.Y = 2.000000000000000000
         Size.Width = 33.000000000000000000
-        Size.Height = 30.000000000000000000
+        Size.Height = 26.000000000000000000
         Size.PlatformDefault = False
       end
       object LineB: TLine
         Align = Contents
         Locked = True
+        HitTest = False
         LineType = Bottom
         Margins.Left = 5.000000000000000000
         Margins.Right = 5.000000000000000000
@@ -140,6 +159,7 @@ object FrameGrupos: TFrameGrupos
       object LabelSelecaoB: TLabel
         Align = Client
         StyledSettings = []
+        Locked = True
         Size.Width = 139.000000000000000000
         Size.Height = 30.000000000000000000
         Size.PlatformDefault = False
@@ -150,6 +170,7 @@ object FrameGrupos: TFrameGrupos
       object LabelPontosB: TLabel
         Align = MostRight
         StyledSettings = []
+        Locked = True
         Margins.Right = 12.000000000000000000
         Position.X = 256.000000000000000000
         Size.Width = 59.000000000000000000
@@ -164,6 +185,7 @@ object FrameGrupos: TFrameGrupos
       object LabelJogosB: TLabel
         Align = MostRight
         StyledSettings = []
+        Locked = True
         Margins.Right = 8.000000000000000000
         Position.X = 192.000000000000000000
         Size.Width = 56.000000000000000000
@@ -178,6 +200,7 @@ object FrameGrupos: TFrameGrupos
     end
     object LayoutSelecaoC: TLayout
       Align = Top
+      HitTest = True
       Margins.Top = 2.000000000000000000
       Position.Y = 89.000000000000000000
       Size.Width = 327.000000000000000000
@@ -191,16 +214,22 @@ object FrameGrupos: TFrameGrupos
           item
           end>
         Align = MostLeft
+        Locked = True
+        HitTest = False
         Margins.Left = 12.000000000000000000
+        Margins.Top = 2.000000000000000000
         Margins.Right = 8.000000000000000000
+        Margins.Bottom = 2.000000000000000000
         Position.X = 12.000000000000000000
+        Position.Y = 2.000000000000000000
         Size.Width = 33.000000000000000000
-        Size.Height = 30.000000000000000000
+        Size.Height = 26.000000000000000000
         Size.PlatformDefault = False
       end
       object LineC: TLine
         Align = Contents
         Locked = True
+        HitTest = False
         LineType = Bottom
         Margins.Left = 5.000000000000000000
         Margins.Right = 5.000000000000000000
@@ -212,6 +241,7 @@ object FrameGrupos: TFrameGrupos
       object LabelSelecaoC: TLabel
         Align = Client
         StyledSettings = []
+        Locked = True
         Size.Width = 139.000000000000000000
         Size.Height = 30.000000000000000000
         Size.PlatformDefault = False
@@ -222,6 +252,7 @@ object FrameGrupos: TFrameGrupos
       object LabelPontosC: TLabel
         Align = MostRight
         StyledSettings = []
+        Locked = True
         Margins.Right = 12.000000000000000000
         Position.X = 256.000000000000000000
         Size.Width = 59.000000000000000000
@@ -236,6 +267,7 @@ object FrameGrupos: TFrameGrupos
       object LabelJogosC: TLabel
         Align = MostRight
         StyledSettings = []
+        Locked = True
         Margins.Right = 8.000000000000000000
         Position.X = 192.000000000000000000
         Size.Width = 56.000000000000000000
@@ -250,6 +282,7 @@ object FrameGrupos: TFrameGrupos
     end
     object LayoutSelecaoD: TLayout
       Align = Top
+      HitTest = True
       Margins.Top = 2.000000000000000000
       Position.Y = 121.000000000000000000
       Size.Width = 327.000000000000000000
@@ -263,16 +296,22 @@ object FrameGrupos: TFrameGrupos
           item
           end>
         Align = MostLeft
+        Locked = True
+        HitTest = False
         Margins.Left = 12.000000000000000000
+        Margins.Top = 2.000000000000000000
         Margins.Right = 8.000000000000000000
+        Margins.Bottom = 2.000000000000000000
         Position.X = 12.000000000000000000
+        Position.Y = 2.000000000000000000
         Size.Width = 33.000000000000000000
-        Size.Height = 30.000000000000000000
+        Size.Height = 26.000000000000000000
         Size.PlatformDefault = False
       end
       object LabelSelecaoD: TLabel
         Align = Client
         StyledSettings = []
+        Locked = True
         Size.Width = 139.000000000000000000
         Size.Height = 30.000000000000000000
         Size.PlatformDefault = False
@@ -283,6 +322,7 @@ object FrameGrupos: TFrameGrupos
       object LabelPontosD: TLabel
         Align = MostRight
         StyledSettings = []
+        Locked = True
         Margins.Right = 12.000000000000000000
         Position.X = 256.000000000000000000
         Size.Width = 59.000000000000000000
@@ -297,6 +337,7 @@ object FrameGrupos: TFrameGrupos
       object LabelJogosD: TLabel
         Align = MostRight
         StyledSettings = []
+        Locked = True
         Margins.Right = 8.000000000000000000
         Position.X = 192.000000000000000000
         Size.Width = 56.000000000000000000

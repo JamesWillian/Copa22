@@ -83,8 +83,11 @@ type
     comboSelecao: TCustomCombo;
 
     procedure DeleteVScrollBoxItems(VSBox: TVertScrollBox; index: Integer = -1);
-    procedure ItemFaseClick(Sender: TObject; const Point: TPointF);
-    procedure ItemSelecaoClick(Sender: TObject; const Point: TPointF);
+
+    procedure FiltroFaseItemClick(Sender: TObject; const Point: TPointF);
+    procedure FiltroSelecaoItemClick(Sender: TObject; const Point: TPointF);
+    procedure TabelaSelecaoItemClick(Sender: TObject);
+    procedure PartidaFrameTap(Sender: TObject; const Point: TPointF);
   public
     { Public declarations }
 
@@ -93,7 +96,7 @@ type
 
     procedure ListarPartidas;
     procedure AddPartida(idPartida: Integer; idSelecaoA, nomeSelecaoA, golsSelecaoA,
-  idSelecaoB, nomeSelecaoB, golsSelecaoB, fase, dataHora: String);
+                idSelecaoB, nomeSelecaoB, golsSelecaoB, fase, dataHora: String);
 
     procedure ListarApostas;
     procedure AddAposta(idAposta, idPartida: Integer;
@@ -181,6 +184,8 @@ begin
     Align := TAlignLayout.Top;
     Position.Y := 1000;
 
+    OnTap := PartidaFrameTap;
+
     ImageSelecaoA.Bitmap := ImagesBandeiras.MultiResBitmap.Items[idSelecaoA.ToInteger -1].Bitmap;
     ImageSelecaoB.Bitmap := ImagesBandeiras.MultiResBitmap.Items[idSelecaoB.ToInteger -1].Bitmap;
 
@@ -213,7 +218,7 @@ begin
     txt.Text := nome;
 
     txt := TListItemText(Objects.FindDrawable('txtPontos'));
-    txt.Text := pontos;
+    txt.Text := pontos + ' Pontos';
   end;
 end;
 
@@ -235,40 +240,45 @@ begin
     Align := TAlignLayout.Top;
     Position.Y := 1000;
 
+    TagString := grupo;
     LabelGrupo.Text := 'Grupo '+grupo;
 
     //Seleção A
+    LayoutSelecaoA.OnClick := TabelaSelecaoItemClick;
     LayoutSelecaoA.Tag := FieldByName('ID_SELECAO').AsInteger;
     LabelSelecaoA.Text := FieldByName('NOME_SELECAO').AsString;//'Brasil';
-    LabelJogosA.Text   := DM.mtTabelaGrupos.FieldByName('JOGOS').AsString + ' Jogos';//'3 Jogos';
-    LabelPontosA.Text  := DM.mtTabelaGrupos.FieldByName('PONTOS').AsString + ' Pontos';//'9 Pontos';
+    LabelJogosA.Text   := FieldByName('JOGOS').AsString + ' Jogos';//'3 Jogos';
+    LabelPontosA.Text  := FieldByName('PONTOS').AsString + ' Pontos';//'9 Pontos';
     ImageA.Bitmap      := ImagesBandeiras.MultiResBitmap.Items[FieldByName('ID_SELECAO').AsInteger -1].Bitmap;
 
     Next;
 
     //Seleção B
+    LayoutSelecaoB.OnClick := TabelaSelecaoItemClick;
     LayoutSelecaoB.Tag := FieldByName('ID_SELECAO').AsInteger;
     LabelSelecaoB.Text := FieldByName('NOME_SELECAO').AsString;;//'Sérvia';
-    LabelJogosB.Text   := DM.mtTabelaGrupos.FieldByName('JOGOS').AsString + ' Jogos';//'3 Jogos';
-    LabelPontosB.Text  := DM.mtTabelaGrupos.FieldByName('PONTOS').AsString + ' Pontos';//'8 Pontos';
+    LabelJogosB.Text   := FieldByName('JOGOS').AsString + ' Jogos';//'3 Jogos';
+    LabelPontosB.Text  := FieldByName('PONTOS').AsString + ' Pontos';//'8 Pontos';
     ImageB.Bitmap      := ImagesBandeiras.MultiResBitmap.Items[FieldByName('ID_SELECAO').AsInteger -1].Bitmap;
 
     Next;
 
     //Seleção C
+    LayoutSelecaoC.OnClick := TabelaSelecaoItemClick;
     LayoutSelecaoC.Tag := FieldByName('ID_SELECAO').AsInteger;
     LabelSelecaoC.Text := FieldByName('NOME_SELECAO').AsString;;//'Suíça';
-    LabelJogosC.Text   := DM.mtTabelaGrupos.FieldByName('JOGOS').AsString + ' Jogos';//'3 Jogos';
-    LabelPontosC.Text  := DM.mtTabelaGrupos.FieldByName('PONTOS').AsString + ' Pontos';//'5 Pontos';
+    LabelJogosC.Text   := FieldByName('JOGOS').AsString + ' Jogos';//'3 Jogos';
+    LabelPontosC.Text  := FieldByName('PONTOS').AsString + ' Pontos';//'5 Pontos';
     ImageC.Bitmap      := ImagesBandeiras.MultiResBitmap.Items[FieldByName('ID_SELECAO').AsInteger -1].Bitmap;
 
     Next;
 
     //Seleção D
+    LayoutSelecaoD.OnClick := TabelaSelecaoItemClick;
     LayoutSelecaoD.Tag := FieldByName('ID_SELECAO').AsInteger;
     LabelSelecaoD.Text := FieldByName('NOME_SELECAO').AsString;;//'Camarões';
-    LabelJogosD.Text   := DM.mtTabelaGrupos.FieldByName('JOGOS').AsString + ' Jogos';//'3 Jogos';
-    LabelPontosD.Text  := DM.mtTabelaGrupos.FieldByName('PONTOS').AsString + ' Pontos';//'1 Pontos';
+    LabelJogosD.Text   := FieldByName('JOGOS').AsString + ' Jogos';//'3 Jogos';
+    LabelPontosD.Text  := FieldByName('PONTOS').AsString + ' Pontos';//'1 Pontos';
     ImageD.Bitmap      := ImagesBandeiras.MultiResBitmap.Items[FieldByName('ID_SELECAO').AsInteger -1].Bitmap;
 
   end;
@@ -300,7 +310,7 @@ begin
   //GRUPOS
   comboFase.TitleMenuText := 'Selecione o Grupo ou Fase que deseja filtrar';
   comboFase.BackgroundColor := $FFF2F2F8;
-  comboFase.OnClick := ItemFaseClick;
+  comboFase.OnClick := FiltroFaseItemClick;
 
   comboFase.AddItem('0', 'Todos Grupos');
   comboFase.AddItem('A', 'Grupo A');
@@ -315,7 +325,7 @@ begin
   //SELEÇÕES
   comboSelecao.TitleMenuText := 'Selecione a Seleção que deseja filtrar';
   comboSelecao.BackgroundColor := $FFF2F2F8;
-  comboSelecao.OnClick := ItemSelecaoClick;
+  comboSelecao.OnClick := FiltroSelecaoItemClick;
 
   comboSelecao.AddItem('0', 'Todas Seleções');
   comboSelecao.AddItem('1', 'Catar');
@@ -374,7 +384,7 @@ begin
   RectAposta.Visible := False;
 end;
 
-procedure TMainForm.ItemFaseClick(Sender: TObject; const Point: TPointF);
+procedure TMainForm.FiltroFaseItemClick(Sender: TObject; const Point: TPointF);
 begin
   comboFase.HideMenu;
 
@@ -383,7 +393,7 @@ begin
   ListarPartidas;
 end;
 
-procedure TMainForm.ItemSelecaoClick(Sender: TObject; const Point: TPointF);
+procedure TMainForm.FiltroSelecaoItemClick(Sender: TObject; const Point: TPointF);
 begin
   comboSelecao.HideMenu;
 
@@ -478,12 +488,19 @@ procedure TMainForm.ListarRanking;
 begin
   ListRanking.Items.Clear;
 
-  AddRanking('1', 'James Willian', '20 Pontos');
-  AddRanking('2', 'Uma Pessoa', '18 Pontos');
-  AddRanking('3', 'Outra Pessoa', '14 Pontos');
-  AddRanking('4', 'Pessoa Sem Nome', '10 Pontos');
-  AddRanking('5', 'Alguém', '9 Pontos');
-  AddRanking('6', 'Desconhecido', '8 Pontos');
+  DM.requestRanking;
+
+  with DM.mtRanking do begin
+    if not IsEmpty then begin
+      while not eof do begin
+        AddRanking(FieldByName('POSICAO').AsString,
+                   FieldByName('USUARIO').AsString,
+                   FieldByName('PONTOS').AsString);
+
+        Next;
+      end;
+    end;
+  end;
 end;
 
 procedure TMainForm.ListarTabelasGrupos;
@@ -516,10 +533,33 @@ begin
 
 end;
 
+procedure TMainForm.PartidaFrameTap(Sender: TObject; const Point: TPointF);
+begin
+  ListarApostas;
+
+  LabelSelecaoA.TagString := TFramePartidas(Sender).LabelSelecaoA.TagString;
+  LabelSelecaoA.Text := TFramePartidas(Sender).LabelSelecaoA.Text;
+
+  LabelSelecaoB.TagString := TFramePartidas(Sender).LabelSelecaoB.TagString;
+  LabelSelecaoB.Text := TFramePartidas(Sender).LabelSelecaoB.Text;
+
+  lblDataHora.Text := TFramePartidas(Sender).LabelDataHora.Text;
+  lblFase.Text := TFramePartidas(Sender).LabelFase.Text;
+
+  ImageSelecaoA.Bitmap := ImagesBandeiras.MultiResBitmap.Items[LabelSelecaoA.TagString.ToInteger -1].Bitmap;
+  ImageSelecaoB.Bitmap := ImagesBandeiras.MultiResBitmap.Items[LabelSelecaoB.TagString.ToInteger -1].Bitmap;
+
+  RectAposta.Tag := TFramePartidas(Sender).Tag;
+  RectAposta.Visible := True;
+
+  TabControl.GotoVisibleTab(2);
+end;
+
 procedure TMainForm.RectApostasTap(Sender: TObject; const Point: TPointF);
 begin
   //Apostas
-  ListarApostas;
+  if not DM.mtApostas.Active then
+    ListarApostas;
   TabControl.GotoVisibleTab(2);
 end;
 
@@ -531,7 +571,8 @@ end;
 procedure TMainForm.RectPartidasTap(Sender: TObject; const Point: TPointF);
 begin
   //Partidas
-  ListarPartidas;
+  if not DM.mtPartidas.Active then
+    ListarPartidas;
   TabControl.GotoVisibleTab(1);
 end;
 
@@ -545,9 +586,23 @@ end;
 procedure TMainForm.RectTabelaTap(Sender: TObject; const Point: TPointF);
 begin
   //Tabela
-  ListarTabelasGrupos;
+  if not DM.mtTabelaGrupos.Active then
+    ListarTabelasGrupos;
+
   TabControl.GotoVisibleTab(0);
 
+end;
+
+procedure TMainForm.TabelaSelecaoItemClick(Sender: TObject);
+begin
+  LabelFiltroGrupos.TagString := TLayout(Sender).Parent.Parent.TagString;
+  LabelFiltroSelecao.TagString := TLayout(Sender).Tag.ToString;
+
+  LabelFiltroGrupos.Text := 'Grupo ' + LabelFiltroGrupos.TagString + ' ▼';
+  LabelFiltroSelecao.Text := TLabel(TLayout(Sender).Owner.FindComponent('LabelSelecao'+AnsiRightStr(TLayout(Sender).Name, 1))).Text + ' ▼';
+
+  ListarPartidas;
+  TabControl.GotoVisibleTab(1);
 end;
 
 end.

@@ -13,6 +13,7 @@ type
     mtTabelaGrupos: TFDMemTable;
     mtPartidas: TFDMemTable;
     mtApostas: TFDMemTable;
+    mtRanking: TFDMemTable;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -24,6 +25,7 @@ type
     procedure requestTabela;
     procedure requestPartidas(grupoFase, idSelecao: String);
     procedure requestApostas;
+    procedure requestRanking;
     function requestPontosUser: Integer;
   end;
 
@@ -90,6 +92,21 @@ begin
     raise Exception.Create(Resp.Content);
 
   Result := Resp.JSONValue.GetValue<Integer>('pontos');
+
+end;
+
+procedure TDM.requestRanking;
+var
+  Resp: IResponse;
+begin
+  Resp := TRequest.New.BaseURL(BASE_URL)
+            .Resource('/ranking')
+            .DataSetAdapter(mtRanking)
+            .Accept('application/json')
+            .Get;
+
+  if Resp.StatusCode <> 200 then
+    raise Exception.Create(Resp.Content);
 
 end;
 
