@@ -65,6 +65,7 @@ type
     Image5: TImage;
     ImageNovaAposta: TImage;
     ImagesBandeiras: TImage;
+    HorzScrollBox1: THorzScrollBox;
     procedure RectTabelaTap(Sender: TObject; const Point: TPointF);
     procedure RectPartidasTap(Sender: TObject; const Point: TPointF);
     procedure RectApostasTap(Sender: TObject; const Point: TPointF);
@@ -76,6 +77,8 @@ type
     procedure LabelFiltroGruposClick(Sender: TObject);
     procedure LabelFiltroSelecaoClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure LayoutSelecaoBTap(Sender: TObject; const Point: TPointF);
+    procedure LayoutSelecaoATap(Sender: TObject; const Point: TPointF);
   private
     { Private declarations }
 
@@ -90,6 +93,8 @@ type
     procedure PartidaFrameTap(Sender: TObject; const Point: TPointF);
     procedure ApostaButtonTap(Sender: TObject; const Point: TPointF);
     procedure NovaAposta(Sender: TObject);
+    procedure NumGolsTap(Sender: TObject; const Point: TPointF);
+    procedure DeleteApostaThreadTerminate(Sender: TObject);
 
   public
     { Public declarations }
@@ -109,6 +114,11 @@ type
 
     procedure ListarRanking;
     procedure AddRanking(posicao, nome, pontos: String);
+
+    procedure SalvarAposta;
+    procedure DeletarAposta;
+
+    procedure AddNumGols;
   end;
 
 var
@@ -119,7 +129,7 @@ implementation
 {$R *.fmx}
 
 uses
-  uFramePartidas, uFrameApostas, uFrameGrupos;
+  uFramePartidas, uFrameApostas, uFrameGrupos, uFrameNumGols;
 
 procedure TMainForm.AddAposta(idAposta, idPartida: Integer;
         idSelecaoA, nomeSelecaoA, golsApostaA, golsPartidaA,
@@ -177,6 +187,32 @@ begin
 
   ListApostas.AddObject(frameAposta);
 
+end;
+
+procedure TMainForm.AddNumGols;
+  procedure Add(numero: String);
+  var
+    frame: TFrameNumGols;
+  begin
+    frame := TFrameNumGols.Create(nil);
+
+    with frame do begin
+      Align := TAlignLayout.Left;
+      Position.X := 1000;
+
+      Label1.Text := numero;
+      Label1.OnTap := NumGolsTap;
+    end;
+
+    HorzScrollBox1.AddObject(frame);
+  end;
+begin
+  HorzScrollBox1.BeginUpdate;
+
+  for var I := 0 to 8 do
+    Add(I.ToString);
+
+  HorzScrollBox1.EndUpdate;
 end;
 
 procedure TMainForm.AddPartida(idPartida: Integer; idSelecaoA, nomeSelecaoA, golsSelecaoA,
@@ -323,6 +359,15 @@ begin
 
 end;
 
+procedure TMainForm.DeleteApostaThreadTerminate(Sender: TObject);
+begin
+  for var I := 0 to ListApostas.Content.ChildrenCount -1 do begin
+    if TFrame(ListApostas.Content.Children[I]).TagString = RectAposta.TagString then
+      TFrame(ListApostas.Content.Children[I]).DisposeOf;
+      Exit;
+  end;
+end;
+
 procedure TMainForm.DeleteVScrollBoxItems(VSBox: TVertScrollBox; index: Integer = -1);
 begin
   try
@@ -411,6 +456,8 @@ end;
 
 procedure TMainForm.FormShow(Sender: TObject);
 begin
+  AddNumGols;
+
   LabelPontos.Text := IntToStr(DM.requestPontosUser)+' Pontos';
 
   ListarTabelasGrupos;
@@ -418,9 +465,16 @@ end;
 
 procedure TMainForm.Image5Click(Sender: TObject);
 begin
+  SalvarAposta;
+
   LabelNovaAposta.Text := 'Nova Aposta';
   ImageNovaAposta.Visible := True;
+  HorzScrollBox1.Visible := False;
   RectAposta.Visible := False;
+
+  Sleep(1000);
+
+  ListarApostas;
 end;
 
 procedure TMainForm.FiltroFaseItemClick(Sender: TObject; const Point: TPointF);
@@ -449,6 +503,18 @@ end;
 procedure TMainForm.LabelFiltroSelecaoClick(Sender: TObject);
 begin
   comboSelecao.ShowMenu;
+end;
+
+procedure TMainForm.LayoutSelecaoATap(Sender: TObject; const Point: TPointF);
+begin
+  HorzScrollBox1.TagString := 'A';
+  HorzScrollBox1.Visible := True;
+end;
+
+procedure TMainForm.LayoutSelecaoBTap(Sender: TObject; const Point: TPointF);
+begin
+  HorzScrollBox1.TagString := 'B';
+  HorzScrollBox1.Visible := True;
 end;
 
 procedure TMainForm.ListarApostas;
@@ -623,6 +689,7 @@ begin
   ImageSelecaoA.Bitmap := ImagesBandeiras.MultiResBitmap.Items[LabelSelecaoA.TagString.ToInteger -1].Bitmap;
   ImageSelecaoB.Bitmap := ImagesBandeiras.MultiResBitmap.Items[LabelSelecaoB.TagString.ToInteger -1].Bitmap;
 
+  HorzScrollBox1.Visible := False;
   RectAposta.Visible := True;
   LabelNovaAposta.Text := IfThen(RectAposta.TagString<>'0','Excluir Aposta','Cancelar Aposta');
   ImageNovaAposta.Visible := False;
@@ -632,6 +699,13 @@ begin
 
   TabControl.GotoVisibleTab(2);
 
+end;
+
+procedure TMainForm.NumGolsTap(Sender: TObject; const Point: TPointF);
+begin
+  TLabel(FindComponent('LabelGol'+HorzScrollBox1.TagString)).Text := TLabel(Sender).Text;
+
+//  TRectangle(TLabel(Sender).Parent).Fill.Color := TAlphaColorRec.Lightgreen;
 end;
 
 procedure TMainForm.PartidaFrameTap(Sender: TObject; const Point: TPointF);
@@ -652,13 +726,31 @@ end;
 procedure TMainForm.RectNovaApostaClick(Sender: TObject);
 begin
 
-  LabelFiltroGrupos.TagString := '0';
-  LabelFiltroSelecao.TagString := '0';
+  if LabelNovaAposta.Text = 'Nova Aposta' then begin
+    LabelFiltroGrupos.TagString := '0';
+    LabelFiltroSelecao.TagString := '0';
 
-  ListarPartidas;
-  TabControl.GotoVisibleTab(1);
+    ListarPartidas;
+    TabControl.GotoVisibleTab(1);
 
-  ShowMessage('Selecione a Partida da Aposta.');
+    ShowMessage('Selecione a Partida da Aposta.');
+  end;
+
+  if LabelNovaAposta.Text = 'Cancelar Aposta' then begin
+    HorzScrollBox1.Visible := False;
+    RectAposta.Visible := False;
+    LabelNovaAposta.Text := 'Nova Aposta';
+    ImageNovaAposta.Visible := False;
+  end;
+
+  if LabelNovaAposta.Text = 'Excluir Aposta' then begin
+    HorzScrollBox1.Visible := False;
+    RectAposta.Visible := False;
+    LabelNovaAposta.Text := 'Nova Aposta';
+    ImageNovaAposta.Visible := False;
+
+    DeletarAposta;
+  end;
 
 end;
 
@@ -684,6 +776,44 @@ begin
     ListarTabelasGrupos;
 
   TabControl.GotoVisibleTab(0);
+
+end;
+
+procedure TMainForm.SalvarAposta;
+var
+  t: TThread;
+begin
+
+  var idPartida := RectAposta.Tag;
+  var idAposta := RectAposta.TagString.ToInteger;
+  var golsA := LabelGolA.Text.ToInteger;
+  var golsB := LabelGolB.Text.ToInteger;
+
+  t := TThread.CreateAnonymousThread(procedure
+    begin
+      //Incluir
+      if idAposta = 0 then
+        DM.postAposta(idPartida, golsA, golsB);
+
+      //Alterar
+      if idAposta > 0 then
+      DM.putAposta(idAposta, golsA, golsB);
+    end);
+
+  t.Start;
+end;
+
+procedure TMainForm.DeletarAposta;
+var
+  t: TThread;
+begin
+  t := TThread.CreateAnonymousThread(procedure
+    begin
+      DM.deleteAposta(RectAposta.TagString);
+    end);
+
+  t.OnTerminate := DeleteApostaThreadTerminate;
+  t.Start;
 
 end;
 

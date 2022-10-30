@@ -1,0 +1,32 @@
+object FrameNumGols: TFrameNumGols
+  HitTest = False
+  Size.Width = 70.000000000000000000
+  Size.Height = 70.000000000000000000
+  Size.PlatformDefault = False
+  object Rectangle1: TRectangle
+    Align = Client
+    Corners = [TopLeft, TopRight]
+    HitTest = False
+    Margins.Top = 3.000000000000000000
+    Margins.Right = 6.000000000000000000
+    Size.Width = 64.000000000000000000
+    Size.Height = 67.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Kind = None
+    XRadius = 10.000000000000000000
+    YRadius = 10.000000000000000000
+    object Label1: TLabel
+      Align = Client
+      StyledSettings = [Family, Style]
+      HitTest = True
+      Size.Width = 64.000000000000000000
+      Size.Height = 67.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 36.000000000000000000
+      TextSettings.FontColor = xFF434343
+      TextSettings.HorzAlign = Center
+      Text = '1'
+      TabOrder = 0
+    end
+  end
+end
