@@ -14,13 +14,31 @@ type
     mtPartidas: TFDMemTable;
     mtApostas: TFDMemTable;
     mtRanking: TFDMemTable;
+    mtPartidas_Apostas: TFDMemTable;
+    mtPartidas_ApostasID_APOSTA: TIntegerField;
+    mtPartidas_ApostasID_USUARIO: TIntegerField;
+    mtPartidas_ApostasID_PARTIDA: TIntegerField;
+    mtPartidas_ApostasGOLS_APOSTA_A: TIntegerField;
+    mtPartidas_ApostasGOLS_APOSTA_B: TIntegerField;
+    dtsPartidas: TDataSource;
+    mtPartidasID_PARTIDA: TIntegerField;
+    mtPartidasID_SELECAO_A: TIntegerField;
+    mtPartidasID_SELECAO_B: TIntegerField;
+    mtPartidasDATA_HORA: TStringField;
+    mtPartidasFASE: TStringField;
+    mtPartidasNOME_SELECAO_A: TStringField;
+    mtPartidasNOME_SELECAO_B: TStringField;
+    mtPartidasGOLS_SELECAO_A: TStringField;
+    mtPartidasGOLS_SELECAO_B: TStringField;
+    mtPartidasPARTIDA_REALIZADA: TBooleanField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
     const BASE_URL = 'http://10.0.0.115:9000';
-    var idUsuario: Integer;
+
   public
     { Public declarations }
+    var idUsuario: Integer;
 
     procedure requestTabela;
     procedure requestPartidas(grupoFase, idSelecao: String);

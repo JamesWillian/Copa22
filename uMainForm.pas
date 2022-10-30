@@ -63,7 +63,7 @@ type
     lblFase: TLabel;
     lblDataHora: TLabel;
     Image5: TImage;
-    Image6: TImage;
+    ImageNovaAposta: TImage;
     ImagesBandeiras: TImage;
     procedure RectTabelaTap(Sender: TObject; const Point: TPointF);
     procedure RectPartidasTap(Sender: TObject; const Point: TPointF);
@@ -88,6 +88,9 @@ type
     procedure FiltroSelecaoItemClick(Sender: TObject; const Point: TPointF);
     procedure TabelaSelecaoItemClick(Sender: TObject);
     procedure PartidaFrameTap(Sender: TObject; const Point: TPointF);
+    procedure ApostaButtonTap(Sender: TObject; const Point: TPointF);
+    procedure NovaAposta(Sender: TObject);
+
   public
     { Public declarations }
 
@@ -96,7 +99,7 @@ type
 
     procedure ListarPartidas;
     procedure AddPartida(idPartida: Integer; idSelecaoA, nomeSelecaoA, golsSelecaoA,
-                idSelecaoB, nomeSelecaoB, golsSelecaoB, fase, dataHora: String);
+        idSelecaoB, nomeSelecaoB, golsSelecaoB, fase, dataHora: String);
 
     procedure ListarApostas;
     procedure AddAposta(idAposta, idPartida: Integer;
@@ -134,7 +137,8 @@ begin
     ImageSelecaoA.Bitmap := ImagesBandeiras.MultiResBitmap.Items[idSelecaoA.ToInteger -1].Bitmap;
     ImageSelecaoB.Bitmap := ImagesBandeiras.MultiResBitmap.Items[idSelecaoB.ToInteger -1].Bitmap;
 
-    Tag := idAposta;
+    Tag := idPartida;
+    TagString := idAposta.ToString;
     LabelSelecaoA.TagString := idSelecaoA;
     LabelSelecaoA.Text := nomeSelecaoA;
     LabelGolA.Text := golsApostaA;
@@ -161,11 +165,13 @@ begin
       end;
     end;
 
-    RectButtonAberto.Visible := (LabelResultPartida.Text = '');
+    RectButtonAposta.Visible := (LabelResultPartida.Text = '');
     LabelPontosPartida.Visible := (StrToInt(pontos)>0);
 
-    if RectButtonAberto.Visible then
+    if RectButtonAposta.Visible then begin
       RectCor.Fill.Color := TAlphaColorRec.Darkgray;
+      RectButtonAposta.OnTap := ApostaButtonTap;
+    end;
 
   end;
 
@@ -286,6 +292,37 @@ begin
   ListTabela.AddObject(frameGrupo);
 end;
 
+procedure TMainForm.ApostaButtonTap(Sender: TObject; const Point: TPointF);
+var
+  frameAposta: TFrameApostas;
+begin
+
+  frameAposta := TFrameApostas(TRectangle( Sender ).Owner);
+
+  RectAposta.Tag := frameAposta.Tag;             //ID_PARTIDA
+  RectAposta.TagString := frameAposta.TagString; //ID_APOSTA
+
+  LabelGolA.Text := frameAposta.LabelGolA.Text;
+  LabelGolB.Text := frameAposta.LabelGolB.Text;
+
+  LabelSelecaoA.TagString := frameAposta.LabelSelecaoA.TagString;
+  LabelSelecaoA.Text := frameAposta.LabelSelecaoA.Text;
+
+  LabelSelecaoB.TagString := frameAposta.LabelSelecaoB.TagString;
+  LabelSelecaoB.Text := frameAposta.LabelSelecaoB.Text;
+
+  lblDataHora.Text := frameAposta.LabelData.Text + ' ' + frameAposta.LabelHora.Text;
+  lblFase.Text := frameAposta.LabelFase.Text;
+
+  ImageSelecaoA.Bitmap := ImagesBandeiras.MultiResBitmap.Items[LabelSelecaoA.TagString.ToInteger -1].Bitmap;
+  ImageSelecaoB.Bitmap := ImagesBandeiras.MultiResBitmap.Items[LabelSelecaoB.TagString.ToInteger -1].Bitmap;
+
+  LabelNovaAposta.Text := 'Excluir Aposta';
+  ImageNovaAposta.Visible := False;
+  RectAposta.Visible := True;
+
+end;
+
 procedure TMainForm.DeleteVScrollBoxItems(VSBox: TVertScrollBox; index: Integer = -1);
 begin
   try
@@ -381,6 +418,8 @@ end;
 
 procedure TMainForm.Image5Click(Sender: TObject);
 begin
+  LabelNovaAposta.Text := 'Nova Aposta';
+  ImageNovaAposta.Visible := True;
   RectAposta.Visible := False;
 end;
 
@@ -533,26 +572,73 @@ begin
 
 end;
 
-procedure TMainForm.PartidaFrameTap(Sender: TObject; const Point: TPointF);
+procedure TMainForm.NovaAposta(Sender: TObject);
+var
+  framePartida: TFramePartidas;
 begin
-  ListarApostas;
 
-  LabelSelecaoA.TagString := TFramePartidas(Sender).LabelSelecaoA.TagString;
-  LabelSelecaoA.Text := TFramePartidas(Sender).LabelSelecaoA.Text;
+  framePartida := TFramePartidas(Sender);
 
-  LabelSelecaoB.TagString := TFramePartidas(Sender).LabelSelecaoB.TagString;
-  LabelSelecaoB.Text := TFramePartidas(Sender).LabelSelecaoB.Text;
+  LabelNovaAposta.Text := 'Nova Aposta';
+  ImageNovaAposta.Visible := True;
 
-  lblDataHora.Text := TFramePartidas(Sender).LabelDataHora.Text;
-  lblFase.Text := TFramePartidas(Sender).LabelFase.Text;
+  RectAposta.Visible := False;
+  RectAposta.Tag := framePartida.Tag;  //ID_PARTIDA
+  RectAposta.TagString := '0';         //ID_APOSTA
+
+  LabelGolA.Text := '--';
+  LabelGolB.Text := '--';
+
+  if DM.mtPartidas.Locate('ID_PARTIDA',RectAposta.Tag) then
+  with DM.mtPartidas_Apostas do begin
+
+    // Se a partida já ocorreu, não deixa alterar
+    if DM.mtPartidas.FieldByName('PARTIDA_REALIZADA').AsBoolean then begin
+      RectAposta.Tag := 0;
+      ShowMessage('Esta partida já ocorreu... Escolha uma outra partida!');
+      Exit;
+    end;
+
+    // Se localizar a aposta da partida, busca os dados para alterar
+    if ( (Active) and (Locate('ID_USUARIO',DM.idUsuario)) ) then begin
+
+      RectAposta.TagString := FieldByName('ID_APOSTA').AsString;
+
+      LabelGolA.Text := FieldByName('GOLS_APOSTA_A').AsString;
+      LabelGolB.Text := FieldByName('GOLS_APOSTA_B').AsString;
+
+    end;
+
+  end;
+
+  LabelSelecaoA.TagString := framePartida.LabelSelecaoA.TagString;
+  LabelSelecaoA.Text := framePartida.LabelSelecaoA.Text;
+
+  LabelSelecaoB.TagString := framePartida.LabelSelecaoB.TagString;
+  LabelSelecaoB.Text := framePartida.LabelSelecaoB.Text;
+
+  lblDataHora.Text := framePartida.LabelDataHora.Text;
+  lblFase.Text := framePartida.LabelFase.Text;
 
   ImageSelecaoA.Bitmap := ImagesBandeiras.MultiResBitmap.Items[LabelSelecaoA.TagString.ToInteger -1].Bitmap;
   ImageSelecaoB.Bitmap := ImagesBandeiras.MultiResBitmap.Items[LabelSelecaoB.TagString.ToInteger -1].Bitmap;
 
-  RectAposta.Tag := TFramePartidas(Sender).Tag;
   RectAposta.Visible := True;
+  LabelNovaAposta.Text := IfThen(RectAposta.TagString<>'0','Excluir Aposta','Cancelar Aposta');
+  ImageNovaAposta.Visible := False;
+
+  if not DM.mtApostas.Active then
+    ListarApostas;
 
   TabControl.GotoVisibleTab(2);
+
+end;
+
+procedure TMainForm.PartidaFrameTap(Sender: TObject; const Point: TPointF);
+begin
+
+  NovaAposta(Sender);
+
 end;
 
 procedure TMainForm.RectApostasTap(Sender: TObject; const Point: TPointF);
@@ -565,7 +651,15 @@ end;
 
 procedure TMainForm.RectNovaApostaClick(Sender: TObject);
 begin
-  RectAposta.Visible := True;
+
+  LabelFiltroGrupos.TagString := '0';
+  LabelFiltroSelecao.TagString := '0';
+
+  ListarPartidas;
+  TabControl.GotoVisibleTab(1);
+
+  ShowMessage('Selecione a Partida da Aposta.');
+
 end;
 
 procedure TMainForm.RectPartidasTap(Sender: TObject; const Point: TPointF);

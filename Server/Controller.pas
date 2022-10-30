@@ -70,8 +70,6 @@ begin
       var grupoFase := Req.Query['grupoFase'];
       var idSelecao := Req.Query['idSelecao'];
 
-//      idSelecao := ifThen(idSelecao='','0',idSelecao);
-
       Res.Send<TJSONArray>(dataModule.ListarPartidas(grupoFase, idSelecao)).Status(200);
 
     except on E:Exception do

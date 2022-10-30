@@ -7,7 +7,8 @@ uses
   FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.FB,
   FireDAC.Phys.FBDef, FireDAC.ConsoleUI.Wait, Data.DB, FireDAC.Comp.Client,
-  DataSet.Serialize, System.JSON, FireDAC.DApt;
+  DataSet.Serialize, System.JSON, FireDAC.DApt, FireDAC.Stan.Param,
+  FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.Comp.DataSet;
 
 type
   TDM = class(TDataModule)
@@ -15,7 +16,7 @@ type
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
-    function SQLToJSONArray(pSQL: String): TJSONArray;
+    function SQLToJSONArray(pSQL: String; pSQLDetail: String = ''; pQueryDetailName: String = ''; masterField: String = ''): TJSONArray;
     function SQLToJSONObject(pSQL: String): TJSONObject;
   public
     { Public declarations }
@@ -136,7 +137,8 @@ begin
     'select P.ID_PARTIDA, '+
     ' S1.ID_SELECAO as ID_SELECAO_A, S1.SELECAO as NOME_SELECAO_A, coalesce(P.GOLS_1, ''--'') as GOLS_SELECAO_A, '+
     ' S2.ID_SELECAO as ID_SELECAO_B, S2.SELECAO as NOME_SELECAO_B, coalesce(P.GOLS_2, ''--'') as GOLS_SELECAO_B, '+
-    ' P.FASE, (lpad(extract(day from P.DATA),2,''0'')||''-''||extract(month from P.DATA)||'' ''|| extract(hour from P.HORA)||''h'') as DATA_HORA '+
+    ' P.FASE, (lpad(extract(day from P.DATA),2,''0'')||''-''||extract(month from P.DATA)||'' ''|| extract(hour from P.HORA)||''h'') as DATA_HORA, '+
+    ' P.GOLS_1 is not null as PARTIDA_REALIZADA '+
     'from PARTIDAS P '+
     'inner join SELECOES S1 on S1.ID_SELECAO=P.ID_SELECAO_1 '+
     'inner join SELECOES S2 on S2.ID_SELECAO=P.ID_SELECAO_2 '+
@@ -151,7 +153,18 @@ begin
 
     else vSQL := vSQL+' and (P.FASE = ''Grupo ''||'+faseGrupo.QuotedString+'); ';
 
-  Result := SQLToJSONArray(vSQL);
+  var vSQLDetail :=
+    'select A.ID_APOSTA, '+
+    ' A.ID_USUARIO, '+
+    ' A.ID_PARTIDA, '+
+    ' A.GOLS_1 as GOLS_APOSTA_A, '+
+    ' A.GOLS_2 as GOLS_APOSTA_B '+
+    'from APOSTAS A '+
+    'inner join PARTIDAS P on P.ID_PARTIDA=A.ID_PARTIDA '+
+    'where P.ID_PARTIDA=:ID_PARTIDA ';
+
+
+  Result := SQLToJSONArray(vSQL, vSQLDetail, 'PARTIDAS_APOSTAS', 'ID_PARTIDA');
 end;
 
 function TDM.ListarTabelaGrupos: TJSONArray;
@@ -171,11 +184,15 @@ begin
     'where U.ID_USUARIO='+idUsuario.ToString);
 end;
 
-function TDM.SQLToJSONArray(pSQL: String): TJSONArray;
+function TDM.SQLToJSONArray(pSQL: String; pSQLDetail: String = ''; pQueryDetailName: String = ''; masterField: String = ''): TJSONArray;
 var
-  qry: TFDQuery;
+  qry, qryDetail: TFDQuery;
+  dtsRelac: TDataSource;
 begin
   qry := TFDQuery.Create(nil);
+  qryDetail := TFDQuery.Create(nil);
+  dtsRelac := TDataSource.Create(nil);
+
   try
     qry.Connection := Connection;
 
@@ -183,12 +200,31 @@ begin
       Close;
       SQL.Clear;
       SQL.Text := pSQL;
+
+      if pSQLDetail <> '' then begin
+        dtsRelac.DataSet := qry;
+
+        qryDetail.Name := 'qry'+pQueryDetailName;
+        qryDetail.Connection := Connection;
+
+        qryDetail.Close;
+        qryDetail.SQL.Clear;
+        qryDetail.SQL.Text := pSQLDetail;
+
+        qryDetail.MasterSource := dtsRelac;
+        qryDetail.MasterFields := masterField;
+
+        qryDetail.Open;
+      end;
+
       Open;
     end;
 
     Result := qry.ToJSONArray;
   finally
     qry.Free;
+    qryDetail.Free;
+    dtsRelac.Free;
   end;
 
 end;

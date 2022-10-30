@@ -190,7 +190,7 @@ object FrameApostas: TFrameApostas
       Size.Height = 50.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
-      object RectButtonAberto: TRectangle
+      object RectButtonAposta: TRectangle
         Align = Center
         Fill.Color = claLimegreen
         Margins.Right = 10.000000000000000000
@@ -204,15 +204,16 @@ object FrameApostas: TFrameApostas
           Align = Client
           StyledSettings = []
           Locked = True
+          Margins.Top = 5.000000000000000000
           Size.Width = 97.000000000000000000
-          Size.Height = 35.000000000000000000
+          Size.Height = 30.000000000000000000
           Size.PlatformDefault = False
           TextSettings.Font.Family = 'Corbel'
           TextSettings.Font.Size = 16.000000000000000000
           TextSettings.Font.StyleExt = {00070000000000000004000000}
           TextSettings.FontColor = claWhite
           TextSettings.HorzAlign = Center
-          Text = 'Aberto'
+          Text = 'Aposta'
           TabOrder = 0
         end
       end
@@ -224,6 +225,7 @@ object FrameApostas: TFrameApostas
         Size.PlatformDefault = False
         TextSettings.Font.Family = 'Corbel'
         TextSettings.Font.Size = 18.000000000000000000
+        TextSettings.Font.StyleExt = {00040000000200000004000000}
         TextSettings.FontColor = claDimgray
         TextSettings.HorzAlign = Center
         Text = 'Pontos'

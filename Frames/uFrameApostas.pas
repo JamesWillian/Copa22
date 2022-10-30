@@ -28,7 +28,7 @@ type
     LabelHora: TLabel;
     LabelResultPartida: TLabel;
     LabelFase: TLabel;
-    RectButtonAberto: TRectangle;
+    RectButtonAposta: TRectangle;
     LabelButton: TLabel;
     RectCor: TRectangle;
     Line1: TLine;
